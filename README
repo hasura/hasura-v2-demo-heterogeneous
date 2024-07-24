@@ -33,3 +33,2269 @@ or..
 #+begin_src bash :exports code
   docker compose up
 #+end_src
+
+** Step 4:  Launch Hasura Console
+
+#+begin_src bash :exports code
+  hasura console
+#+end_src
+
+** Step 5:  Issue GraphQL queries
+
+For example...
+
+#+name: my-headers
+#+begin_src emacs-lisp
+  '(("x-hasura-admin-secret" . "hasura"))
+#+end_src
+#+begin_src graphql :url http://localhost:8081/v1/graphql :headers my-headers
+query MyQuery {
+  Artist(limit: 10) {
+    Name
+    albums {
+      Title
+      tracks {
+        Bytes
+        Composer
+        Milliseconds
+        Name
+        UnitPrice
+        mediatype {
+          Name
+        }
+        genre {
+          Name
+        }
+      }
+    }
+  }
+}
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+{
+  "data": {
+    "Artist": [
+      {
+        "Name": "AC/DC",
+        "albums": [
+          {
+            "Title": "For Those About To Rock We Salute You",
+            "tracks": [
+              {
+                "Bytes": 11170334,
+                "Composer": "Angus Young, Malcolm Young, Brian Johnson",
+                "Milliseconds": 343719,
+                "Name": "For Those About To Rock (We Salute You)",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 6713451,
+                "Composer": "Angus Young, Malcolm Young, Brian Johnson",
+                "Milliseconds": 205662,
+                "Name": "Put The Finger On You",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 7636561,
+                "Composer": "Angus Young, Malcolm Young, Brian Johnson",
+                "Milliseconds": 233926,
+                "Name": "Let's Get It Up",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 6852860,
+                "Composer": "Angus Young, Malcolm Young, Brian Johnson",
+                "Milliseconds": 210834,
+                "Name": "Inject The Venom",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 6599424,
+                "Composer": "Angus Young, Malcolm Young, Brian Johnson",
+                "Milliseconds": 203102,
+                "Name": "Snowballed",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 8611245,
+                "Composer": "Angus Young, Malcolm Young, Brian Johnson",
+                "Milliseconds": 263497,
+                "Name": "Evil Walks",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 6566314,
+                "Composer": "Angus Young, Malcolm Young, Brian Johnson",
+                "Milliseconds": 199836,
+                "Name": "C.O.D.",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 8596840,
+                "Composer": "Angus Young, Malcolm Young, Brian Johnson",
+                "Milliseconds": 263288,
+                "Name": "Breaking The Rules",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 6706347,
+                "Composer": "Angus Young, Malcolm Young, Brian Johnson",
+                "Milliseconds": 205688,
+                "Name": "Night Of The Long Knives",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 8817038,
+                "Composer": "Angus Young, Malcolm Young, Brian Johnson",
+                "Milliseconds": 270863,
+                "Name": "Spellbound",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              }
+            ]
+          },
+          {
+            "Title": "Let There Be Rock",
+            "tracks": [
+              {
+                "Bytes": 10847611,
+                "Composer": "AC/DC",
+                "Milliseconds": 331180,
+                "Name": "Go Down",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 7032162,
+                "Composer": "AC/DC",
+                "Milliseconds": 215196,
+                "Name": "Dog Eat Dog",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 12021261,
+                "Composer": "AC/DC",
+                "Milliseconds": 366654,
+                "Name": "Let There Be Rock",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 8776140,
+                "Composer": "AC/DC",
+                "Milliseconds": 267728,
+                "Name": "Bad Boy Boogie",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 10617116,
+                "Composer": "AC/DC",
+                "Milliseconds": 325041,
+                "Name": "Problem Child",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 12066294,
+                "Composer": "AC/DC",
+                "Milliseconds": 369319,
+                "Name": "Overdose",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 8331286,
+                "Composer": "AC/DC",
+                "Milliseconds": 254380,
+                "Name": "Hell Ain't A Bad Place To Be",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 10547154,
+                "Composer": "AC/DC",
+                "Milliseconds": 323761,
+                "Name": "Whole Lotta Rosie",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "Accept",
+        "albums": [
+          {
+            "Title": "Balls to the Wall",
+            "tracks": [
+              {
+                "Bytes": 5510424,
+                "Composer": null,
+                "Milliseconds": 342562,
+                "Name": "Balls to the Wall",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "Protected AAC audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              }
+            ]
+          },
+          {
+            "Title": "Restless and Wild",
+            "tracks": [
+              {
+                "Bytes": 3990994,
+                "Composer": "F. Baltes, S. Kaufman, U. Dirkscneider & W. Hoffman",
+                "Milliseconds": 230619,
+                "Name": "Fast As a Shark",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "Protected AAC audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 4331779,
+                "Composer": "F. Baltes, R.A. Smith-Diesel, S. Kaufman, U. Dirkscneider & W. Hoffman",
+                "Milliseconds": 252051,
+                "Name": "Restless and Wild",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "Protected AAC audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 6290521,
+                "Composer": "Deaffy & R.A. Smith-Diesel",
+                "Milliseconds": 375418,
+                "Name": "Princess of the Dawn",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "Protected AAC audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "Aerosmith",
+        "albums": [
+          {
+            "Title": "Big Ones",
+            "tracks": [
+              {
+                "Bytes": 9719579,
+                "Composer": "Steven Tyler, Joe Perry, Jack Blades, Tommy Shaw",
+                "Milliseconds": 295680,
+                "Name": "Walk On Water",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 10552051,
+                "Composer": "Steven Tyler, Joe Perry",
+                "Milliseconds": 321828,
+                "Name": "Love In An Elevator",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 8675345,
+                "Composer": "Steven Tyler, Joe Perry, Jim Vallance, Holly Knight",
+                "Milliseconds": 264698,
+                "Name": "Rag Doll",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 10144730,
+                "Composer": "Steven Tyler, Joe Perry, Desmond Child",
+                "Milliseconds": 310622,
+                "Name": "What It Takes",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 8679940,
+                "Composer": "Steven Tyler, Joe Perry, Desmond Child",
+                "Milliseconds": 264855,
+                "Name": "Dude (Looks Like A Lady)",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 10869391,
+                "Composer": "Steven Tyler, Tom Hamilton",
+                "Milliseconds": 330736,
+                "Name": "Janie's Got A Gun",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 10056995,
+                "Composer": "Steven Tyler, Joe Perry, Taylor Rhodes",
+                "Milliseconds": 309263,
+                "Name": "Cryin'",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 11616195,
+                "Composer": "Steven Tyler, Richie Supa",
+                "Milliseconds": 356519,
+                "Name": "Amazing",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 7877453,
+                "Composer": "Steven Tyler, Joe Perry, Taylor Rhodes",
+                "Milliseconds": 240718,
+                "Name": "Blind Man",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 7074167,
+                "Composer": "Steven Tyler, Jim Vallance",
+                "Milliseconds": 215875,
+                "Name": "Deuces Are Wild",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 7983270,
+                "Composer": "Steven Tyler, Jim Vallance",
+                "Milliseconds": 244375,
+                "Name": "The Other Side",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 10402398,
+                "Composer": "Steven Tyler, Joe Perry, Desmond Child",
+                "Milliseconds": 316656,
+                "Name": "Crazy",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 8262039,
+                "Composer": "Steven Tyler, Joe Perry, Jim Vallance",
+                "Milliseconds": 251036,
+                "Name": "Eat The Rich",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 9989331,
+                "Composer": "Steven Tyler, Desmond Child",
+                "Milliseconds": 307617,
+                "Name": "Angel",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 12374569,
+                "Composer": "Steven Tyler, Joe Perry, Mark Hudson",
+                "Milliseconds": 381231,
+                "Name": "Livin' On The Edge",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "Alanis Morissette",
+        "albums": [
+          {
+            "Title": "Jagged Little Pill",
+            "tracks": [
+              {
+                "Bytes": 9375567,
+                "Composer": "Alanis Morissette & Glenn Ballard",
+                "Milliseconds": 284891,
+                "Name": "All I Really Want",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 8196916,
+                "Composer": "Alanis Morissette & Glenn Ballard",
+                "Milliseconds": 249234,
+                "Name": "You Oughta Know",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 6145404,
+                "Composer": "Alanis Morissette & Glenn Ballard",
+                "Milliseconds": 188133,
+                "Name": "Perfect",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 7224246,
+                "Composer": "Alanis Morissette & Glenn Ballard",
+                "Milliseconds": 221570,
+                "Name": "Hand In My Pocket",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 5793082,
+                "Composer": "Alanis Morissette & Glenn Ballard",
+                "Milliseconds": 176117,
+                "Name": "Right Through You",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 9753256,
+                "Composer": "Alanis Morissette & Glenn Ballard",
+                "Milliseconds": 300355,
+                "Name": "Forgiven",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 7824837,
+                "Composer": "Alanis Morissette & Glenn Ballard",
+                "Milliseconds": 239699,
+                "Name": "You Learn",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 8758008,
+                "Composer": "Alanis Morissette & Glenn Ballard",
+                "Milliseconds": 267493,
+                "Name": "Head Over Feet",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 9163588,
+                "Composer": "Alanis Morissette & Glenn Ballard",
+                "Milliseconds": 280607,
+                "Name": "Mary Jane",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 7598866,
+                "Composer": "Alanis Morissette & Glenn Ballard",
+                "Milliseconds": 229825,
+                "Name": "Ironic",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 7604601,
+                "Composer": "Alanis Morissette & Glenn Ballard",
+                "Milliseconds": 227631,
+                "Name": "Not The Doctor",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 9703359,
+                "Composer": "Alanis Morissette & Glenn Ballard",
+                "Milliseconds": 293485,
+                "Name": "Wake Up",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 16008629,
+                "Composer": "Alanis Morissette & Glenn Ballard",
+                "Milliseconds": 491885,
+                "Name": "You Oughta Know (Alternate)",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "Alice In Chains",
+        "albums": [
+          {
+            "Title": "Facelift",
+            "tracks": [
+              {
+                "Bytes": 4925362,
+                "Composer": "Jerry Cantrell",
+                "Milliseconds": 152084,
+                "Name": "We Die Young",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 9310272,
+                "Composer": "Jerry Cantrell, Layne Staley",
+                "Milliseconds": 286641,
+                "Name": "Man In The Box",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 11316328,
+                "Composer": "Jerry Cantrell",
+                "Milliseconds": 349831,
+                "Name": "Sea Of Sorrow",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 7847716,
+                "Composer": "Jerry Cantrell",
+                "Milliseconds": 241946,
+                "Name": "Bleed The Freak",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 7302550,
+                "Composer": "Jerry Cantrell, Layne Staley",
+                "Milliseconds": 222955,
+                "Name": "I Can't Remember",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 12575396,
+                "Composer": "Jerry Cantrell, Layne Staley",
+                "Milliseconds": 387134,
+                "Name": "Love, Hate, Love",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 8993793,
+                "Composer": "Jerry Cantrell, Michael Starr, Sean Kinney",
+                "Milliseconds": 277577,
+                "Name": "It Ain't Like That",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 9216057,
+                "Composer": "Jerry Cantrell",
+                "Milliseconds": 284969,
+                "Name": "Sunshine",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 6420530,
+                "Composer": "Jerry Cantrell",
+                "Milliseconds": 196231,
+                "Name": "Put You Down",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 11183647,
+                "Composer": "Jerry Cantrell, Michael Starr, Layne Staley",
+                "Milliseconds": 344163,
+                "Name": "Confusion",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 8497788,
+                "Composer": "Jerry Cantrell",
+                "Milliseconds": 261955,
+                "Name": "I Know Somethin (Bout You)",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 7937731,
+                "Composer": "Jerry Cantrell, Layne Staley",
+                "Milliseconds": 243879,
+                "Name": "Real Thing",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "Antônio Carlos Jobim",
+        "albums": [
+          {
+            "Title": "Warner 25 Anos",
+            "tracks": [
+              {
+                "Bytes": 5990473,
+                "Composer": null,
+                "Milliseconds": 185338,
+                "Name": "Desafinado",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Jazz"
+                }
+              },
+              {
+                "Bytes": 9348428,
+                "Composer": null,
+                "Milliseconds": 285048,
+                "Name": "Garota De Ipanema",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Jazz"
+                }
+              },
+              {
+                "Bytes": 4535401,
+                "Composer": null,
+                "Milliseconds": 137273,
+                "Name": "Samba De Uma Nota Só (One Note Samba)",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Jazz"
+                }
+              },
+              {
+                "Bytes": 5536496,
+                "Composer": null,
+                "Milliseconds": 169900,
+                "Name": "Por Causa De Você",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Jazz"
+                }
+              },
+              {
+                "Bytes": 8226934,
+                "Composer": null,
+                "Milliseconds": 251977,
+                "Name": "Ligia",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Jazz"
+                }
+              },
+              {
+                "Bytes": 4198774,
+                "Composer": null,
+                "Milliseconds": 129227,
+                "Name": "Fotografia",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Jazz"
+                }
+              },
+              {
+                "Bytes": 8149148,
+                "Composer": null,
+                "Milliseconds": 253178,
+                "Name": "Dindi (Dindi)",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Jazz"
+                }
+              },
+              {
+                "Bytes": 4393377,
+                "Composer": null,
+                "Milliseconds": 134948,
+                "Name": "Se Todos Fossem Iguais A Você (Instrumental)",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Jazz"
+                }
+              },
+              {
+                "Bytes": 7121735,
+                "Composer": null,
+                "Milliseconds": 219663,
+                "Name": "Falando De Amor",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Jazz"
+                }
+              },
+              {
+                "Bytes": 5574957,
+                "Composer": null,
+                "Milliseconds": 169508,
+                "Name": "Angela",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Jazz"
+                }
+              },
+              {
+                "Bytes": 6687994,
+                "Composer": null,
+                "Milliseconds": 205662,
+                "Name": "Corcovado (Quiet Nights Of Quiet Stars)",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Jazz"
+                }
+              },
+              {
+                "Bytes": 4110053,
+                "Composer": null,
+                "Milliseconds": 126511,
+                "Name": "Outra Vez",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Jazz"
+                }
+              },
+              {
+                "Bytes": 12089673,
+                "Composer": null,
+                "Milliseconds": 366837,
+                "Name": "O Boto (Bôto)",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Jazz"
+                }
+              },
+              {
+                "Bytes": 8719426,
+                "Composer": null,
+                "Milliseconds": 271856,
+                "Name": "Canta, Canta Mais",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Jazz"
+                }
+              }
+            ]
+          },
+          {
+            "Title": "Chill: Brazil (Disc 2)",
+            "tracks": [
+              {
+                "Bytes": 9141343,
+                "Composer": "Vários",
+                "Milliseconds": 279536,
+                "Name": "Garota De Ipanema",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Latin"
+                }
+              },
+              {
+                "Bytes": 7143328,
+                "Composer": "Vários",
+                "Milliseconds": 213237,
+                "Name": "Tim Tim Por Tim Tim",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Latin"
+                }
+              },
+              {
+                "Bytes": 10344491,
+                "Composer": "Vários",
+                "Milliseconds": 313704,
+                "Name": "Tarde Em Itapoã",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Latin"
+                }
+              },
+              {
+                "Bytes": 5572240,
+                "Composer": "Vários",
+                "Milliseconds": 170292,
+                "Name": "Tanto Tempo",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Latin"
+                }
+              },
+              {
+                "Bytes": 5115428,
+                "Composer": "Vários",
+                "Milliseconds": 157988,
+                "Name": "Eu Vim Da Bahia - Live",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Latin"
+                }
+              },
+              {
+                "Bytes": 8013065,
+                "Composer": "Vários",
+                "Milliseconds": 238106,
+                "Name": "Alô Alô Marciano",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Latin"
+                }
+              },
+              {
+                "Bytes": 9275929,
+                "Composer": "Vários",
+                "Milliseconds": 279484,
+                "Name": "Linha Do Horizonte",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Latin"
+                }
+              },
+              {
+                "Bytes": 12192989,
+                "Composer": "Vários",
+                "Milliseconds": 371356,
+                "Name": "Only A Dream In Rio",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Latin"
+                }
+              },
+              {
+                "Bytes": 8991141,
+                "Composer": "Vários",
+                "Milliseconds": 271960,
+                "Name": "Abrir A Porta",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Latin"
+                }
+              },
+              {
+                "Bytes": 5594341,
+                "Composer": "Vários",
+                "Milliseconds": 165982,
+                "Name": "Alice",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Latin"
+                }
+              },
+              {
+                "Bytes": 9313740,
+                "Composer": "Vários",
+                "Milliseconds": 280137,
+                "Name": "Momentos Que Marcam",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Latin"
+                }
+              },
+              {
+                "Bytes": 7819755,
+                "Composer": "Vários",
+                "Milliseconds": 237714,
+                "Name": "Um Jantar Pra Dois",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Latin"
+                }
+              },
+              {
+                "Bytes": 9073350,
+                "Composer": "Vários",
+                "Milliseconds": 270158,
+                "Name": "Bumbo Da Mangueira",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Latin"
+                }
+              },
+              {
+                "Bytes": 7102545,
+                "Composer": "Vários",
+                "Milliseconds": 213890,
+                "Name": "Mr Funk Samba",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Latin"
+                }
+              },
+              {
+                "Bytes": 5492069,
+                "Composer": "Vários",
+                "Milliseconds": 162716,
+                "Name": "Santo Antonio",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Latin"
+                }
+              },
+              {
+                "Bytes": 6792493,
+                "Composer": "Vários",
+                "Milliseconds": 205557,
+                "Name": "Por Você",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Latin"
+                }
+              },
+              {
+                "Bytes": 13085596,
+                "Composer": "Vários",
+                "Milliseconds": 389642,
+                "Name": "Só Tinha De Ser Com Você",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Latin"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "Apocalyptica",
+        "albums": [
+          {
+            "Title": "Plays Metallica By Four Cellos",
+            "tracks": [
+              {
+                "Bytes": 7286305,
+                "Composer": "Apocalyptica",
+                "Milliseconds": 221701,
+                "Name": "Enter Sandman",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Metal"
+                }
+              },
+              {
+                "Bytes": 14375310,
+                "Composer": "Apocalyptica",
+                "Milliseconds": 436453,
+                "Name": "Master Of Puppets",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Metal"
+                }
+              },
+              {
+                "Bytes": 12372536,
+                "Composer": "Apocalyptica",
+                "Milliseconds": 374543,
+                "Name": "Harvester Of Sorrow",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Metal"
+                }
+              },
+              {
+                "Bytes": 10422447,
+                "Composer": "Apocalyptica",
+                "Milliseconds": 322925,
+                "Name": "The Unforgiven",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Metal"
+                }
+              },
+              {
+                "Bytes": 9405526,
+                "Composer": "Apocalyptica",
+                "Milliseconds": 288208,
+                "Name": "Sad But True",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Metal"
+                }
+              },
+              {
+                "Bytes": 10110980,
+                "Composer": "Apocalyptica",
+                "Milliseconds": 308035,
+                "Name": "Creeping Death",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Metal"
+                }
+              },
+              {
+                "Bytes": 12033110,
+                "Composer": "Apocalyptica",
+                "Milliseconds": 369345,
+                "Name": "Wherever I May Roam",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Metal"
+                }
+              },
+              {
+                "Bytes": 11406431,
+                "Composer": "Apocalyptica",
+                "Milliseconds": 350197,
+                "Name": "Welcome Home (Sanitarium)",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Metal"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "Audioslave",
+        "albums": [
+          {
+            "Title": "Audioslave",
+            "tracks": [
+              {
+                "Bytes": 5339931,
+                "Composer": "Audioslave/Chris Cornell",
+                "Milliseconds": 222380,
+                "Name": "Cochise",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 6672176,
+                "Composer": "Audioslave/Chris Cornell",
+                "Milliseconds": 277890,
+                "Name": "Show Me How to Live",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 6709793,
+                "Composer": "Audioslave/Chris Cornell",
+                "Milliseconds": 279457,
+                "Name": "Gasoline",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 5988186,
+                "Composer": "Audioslave/Chris Cornell",
+                "Milliseconds": 249391,
+                "Name": "What You Are",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 7059624,
+                "Composer": "Audioslave/Chris Cornell",
+                "Milliseconds": 294034,
+                "Name": "Like a Stone",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 6321091,
+                "Composer": "Audioslave/Chris Cornell",
+                "Milliseconds": 263262,
+                "Name": "Set It Off",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 8245793,
+                "Composer": "Audioslave/Chris Cornell",
+                "Milliseconds": 343457,
+                "Name": "Shadow on the Sun",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 8041411,
+                "Composer": "Audioslave/Chris Cornell",
+                "Milliseconds": 334942,
+                "Name": "I am the Highway",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 4948095,
+                "Composer": "Audioslave/Chris Cornell",
+                "Milliseconds": 206053,
+                "Name": "Exploder",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 4961887,
+                "Composer": "Audioslave/Chris Cornell",
+                "Milliseconds": 206628,
+                "Name": "Hypnotize",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 7911634,
+                "Composer": "Audioslave/Chris Cornell",
+                "Milliseconds": 329534,
+                "Name": "Bring'em Back Alive",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 7289084,
+                "Composer": "Audioslave/Chris Cornell",
+                "Milliseconds": 303595,
+                "Name": "Light My Way",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 7193162,
+                "Composer": "Audioslave/Chris Cornell",
+                "Milliseconds": 299598,
+                "Name": "Getaway Car",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              },
+              {
+                "Bytes": 7622615,
+                "Composer": "Audioslave/Chris Cornell",
+                "Milliseconds": 317492,
+                "Name": "The Last Remaining Light",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock"
+                }
+              }
+            ]
+          },
+          {
+            "Title": "Out Of Exile",
+            "tracks": [
+              {
+                "Bytes": 8273592,
+                "Composer": "Cornell, Commerford, Morello, Wilk",
+                "Milliseconds": 255529,
+                "Name": "Your Time Has Come",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Alternative & Punk"
+                }
+              },
+              {
+                "Bytes": 9506571,
+                "Composer": "Cornell, Commerford, Morello, Wilk",
+                "Milliseconds": 291291,
+                "Name": "Out Of Exile",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Alternative & Punk"
+                }
+              },
+              {
+                "Bytes": 9106160,
+                "Composer": "Cornell, Commerford, Morello, Wilk",
+                "Milliseconds": 279484,
+                "Name": "Be Yourself",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Alternative & Punk"
+                }
+              },
+              {
+                "Bytes": 8357387,
+                "Composer": "Cornell, Commerford, Morello, Wilk",
+                "Milliseconds": 255869,
+                "Name": "Doesn't Remind Me",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Alternative & Punk"
+                }
+              },
+              {
+                "Bytes": 7609178,
+                "Composer": "Cornell, Commerford, Morello, Wilk",
+                "Milliseconds": 233691,
+                "Name": "Drown Me Slowly",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Alternative & Punk"
+                }
+              },
+              {
+                "Bytes": 9006158,
+                "Composer": "Cornell, Commerford, Morello, Wilk",
+                "Milliseconds": 276688,
+                "Name": "Heaven's Dead",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Alternative & Punk"
+                }
+              },
+              {
+                "Bytes": 7710800,
+                "Composer": "Cornell, Commerford, Morello, Wilk",
+                "Milliseconds": 237714,
+                "Name": "The Worm",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Alternative & Punk"
+                }
+              },
+              {
+                "Bytes": 7542942,
+                "Composer": "Cornell, Commerford, Morello, Wilk",
+                "Milliseconds": 233195,
+                "Name": "Man Or Animal",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Alternative & Punk"
+                }
+              },
+              {
+                "Bytes": 8944205,
+                "Composer": "Cornell, Commerford, Morello, Wilk",
+                "Milliseconds": 273763,
+                "Name": "Yesterday To Tomorrow",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Alternative & Punk"
+                }
+              },
+              {
+                "Bytes": 9003592,
+                "Composer": "Cornell, Commerford, Morello, Wilk",
+                "Milliseconds": 278125,
+                "Name": "Dandelion",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Alternative & Punk"
+                }
+              },
+              {
+                "Bytes": 9731988,
+                "Composer": "Cornell, Commerford, Morello, Wilk",
+                "Milliseconds": 299102,
+                "Name": "#1 Zero",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Alternative & Punk"
+                }
+              },
+              {
+                "Bytes": 10029406,
+                "Composer": "Cornell, Commerford, Morello, Wilk",
+                "Milliseconds": 309786,
+                "Name": "The Curse",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Alternative & Punk"
+                }
+              }
+            ]
+          },
+          {
+            "Title": "Revelations",
+            "tracks": [
+              {
+                "Bytes": 4111051,
+                "Composer": null,
+                "Milliseconds": 252376,
+                "Name": "Revelations",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "Protected AAC audio file"
+                },
+                "genre": {
+                  "Name": "Alternative"
+                }
+              },
+              {
+                "Bytes": 3559040,
+                "Composer": null,
+                "Milliseconds": 217732,
+                "Name": "One and the Same",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "Protected AAC audio file"
+                },
+                "genre": {
+                  "Name": "Alternative"
+                }
+              },
+              {
+                "Bytes": 4234990,
+                "Composer": null,
+                "Milliseconds": 260154,
+                "Name": "Sound of a Gun",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "Protected AAC audio file"
+                },
+                "genre": {
+                  "Name": "Alternative"
+                }
+              },
+              {
+                "Bytes": 3766605,
+                "Composer": null,
+                "Milliseconds": 230758,
+                "Name": "Until We Fall",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "Protected AAC audio file"
+                },
+                "genre": {
+                  "Name": "Alternative"
+                }
+              },
+              {
+                "Bytes": 3577821,
+                "Composer": null,
+                "Milliseconds": 218916,
+                "Name": "Original Fire",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "Protected AAC audio file"
+                },
+                "genre": {
+                  "Name": "Alternative"
+                }
+              },
+              {
+                "Bytes": 3728955,
+                "Composer": null,
+                "Milliseconds": 228366,
+                "Name": "Broken City",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "Protected AAC audio file"
+                },
+                "genre": {
+                  "Name": "Alternative"
+                }
+              },
+              {
+                "Bytes": 3497176,
+                "Composer": null,
+                "Milliseconds": 213831,
+                "Name": "Somedays",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "Protected AAC audio file"
+                },
+                "genre": {
+                  "Name": "Alternative"
+                }
+              },
+              {
+                "Bytes": 4465399,
+                "Composer": null,
+                "Milliseconds": 274597,
+                "Name": "Shape of Things to Come",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "Protected AAC audio file"
+                },
+                "genre": {
+                  "Name": "Alternative"
+                }
+              },
+              {
+                "Bytes": 3806103,
+                "Composer": null,
+                "Milliseconds": 233242,
+                "Name": "Jewel of the Summertime",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "Protected AAC audio file"
+                },
+                "genre": {
+                  "Name": "Alternative"
+                }
+              },
+              {
+                "Bytes": 4333050,
+                "Composer": null,
+                "Milliseconds": 266308,
+                "Name": "Wide Awake",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "Protected AAC audio file"
+                },
+                "genre": {
+                  "Name": "Alternative"
+                }
+              },
+              {
+                "Bytes": 3484335,
+                "Composer": null,
+                "Milliseconds": 213041,
+                "Name": "Nothing Left to Say But Goodbye",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "Protected AAC audio file"
+                },
+                "genre": {
+                  "Name": "Alternative"
+                }
+              },
+              {
+                "Bytes": 4838884,
+                "Composer": null,
+                "Milliseconds": 298049,
+                "Name": "Moth",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "Protected AAC audio file"
+                },
+                "genre": {
+                  "Name": "Alternative"
+                }
+              },
+              {
+                "Bytes": 4901540,
+                "Composer": null,
+                "Milliseconds": 301974,
+                "Name": "Show Me How to Live (Live at the Quart Festival)",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "Protected AAC audio file"
+                },
+                "genre": {
+                  "Name": "Alternative"
+                }
+              },
+              {
+                "Bytes": 61118891,
+                "Composer": null,
+                "Milliseconds": 294294,
+                "Name": "Band Members Discuss Tracks from \"Revelations\"",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "Protected MPEG-4 video file"
+                },
+                "genre": {
+                  "Name": "Alternative"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "BackBeat",
+        "albums": [
+          {
+            "Title": "BackBeat Soundtrack",
+            "tracks": [
+              {
+                "Bytes": 2365897,
+                "Composer": "Berry Gordy, Jr./Janie Bradford",
+                "Milliseconds": 147591,
+                "Name": "Money",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock And Roll"
+                }
+              },
+              {
+                "Bytes": 1707084,
+                "Composer": "Enotris Johnson/Little Richard/Robert \"Bumps\" Blackwell",
+                "Milliseconds": 106396,
+                "Name": "Long Tall Sally",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock And Roll"
+                }
+              },
+              {
+                "Bytes": 1862126,
+                "Composer": "Larry Williams",
+                "Milliseconds": 116088,
+                "Name": "Bad Boy",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock And Roll"
+                }
+              },
+              {
+                "Bytes": 2582553,
+                "Composer": "Bert Russell/Phil Medley",
+                "Milliseconds": 161123,
+                "Name": "Twist And Shout",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock And Roll"
+                }
+              },
+              {
+                "Bytes": 2206986,
+                "Composer": "Brian Holland/Freddie Gorman/Georgia Dobbins/Robert Bateman/William Garrett",
+                "Milliseconds": 137639,
+                "Name": "Please Mr. Postman",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock And Roll"
+                }
+              },
+              {
+                "Bytes": 2247846,
+                "Composer": "Eddie Cochran/Jerry Capehart",
+                "Milliseconds": 140199,
+                "Name": "C'Mon Everybody",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock And Roll"
+                }
+              },
+              {
+                "Bytes": 2276788,
+                "Composer": "Chuck Berry",
+                "Milliseconds": 141923,
+                "Name": "Rock 'N' Roll Music",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock And Roll"
+                }
+              },
+              {
+                "Bytes": 2616981,
+                "Composer": "Larry Williams",
+                "Milliseconds": 163265,
+                "Name": "Slow Down",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock And Roll"
+                }
+              },
+              {
+                "Bytes": 2301989,
+                "Composer": "Bo Diddley",
+                "Milliseconds": 143595,
+                "Name": "Roadrunner",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock And Roll"
+                }
+              },
+              {
+                "Bytes": 2306019,
+                "Composer": "Chuck Berry",
+                "Milliseconds": 143830,
+                "Name": "Carol",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock And Roll"
+                }
+              },
+              {
+                "Bytes": 1704918,
+                "Composer": "Little Richard",
+                "Milliseconds": 106266,
+                "Name": "Good Golly Miss Molly",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock And Roll"
+                }
+              },
+              {
+                "Bytes": 1299960,
+                "Composer": "Ned Fairchild",
+                "Milliseconds": 107807,
+                "Name": "20 Flight Rock",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Rock And Roll"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "Billy Cobham",
+        "albums": [
+          {
+            "Title": "The Best Of Billy Cobham",
+            "tracks": [
+              {
+                "Bytes": 8538199,
+                "Composer": "Billy Cobham",
+                "Milliseconds": 261851,
+                "Name": "Quadrant",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Jazz"
+                }
+              },
+              {
+                "Bytes": 15075616,
+                "Composer": "Billy Cobham",
+                "Milliseconds": 456071,
+                "Name": "Snoopy's search-Red baron",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Jazz"
+                }
+              },
+              {
+                "Bytes": 8217867,
+                "Composer": "Billy Cobham",
+                "Milliseconds": 248084,
+                "Name": "Spanish moss-\"A sound portrait\"-Spanish moss",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Jazz"
+                }
+              },
+              {
+                "Bytes": 9714812,
+                "Composer": "Billy Cobham",
+                "Milliseconds": 294060,
+                "Name": "Moon germs",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Jazz"
+                }
+              },
+              {
+                "Bytes": 19115680,
+                "Composer": "Billy Cobham",
+                "Milliseconds": 582086,
+                "Name": "Stratus",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Jazz"
+                }
+              },
+              {
+                "Bytes": 10630578,
+                "Composer": "Billy Cobham",
+                "Milliseconds": 318066,
+                "Name": "The pleasant pheasant",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Jazz"
+                }
+              },
+              {
+                "Bytes": 8230661,
+                "Composer": "Billy Cobham",
+                "Milliseconds": 246151,
+                "Name": "Solo-Panhandler",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Jazz"
+                }
+              },
+              {
+                "Bytes": 9018565,
+                "Composer": "George Duke",
+                "Milliseconds": 274155,
+                "Name": "Do what cha wanna",
+                "UnitPrice": 0.99,
+                "mediatype": {
+                  "Name": "MPEG audio file"
+                },
+                "genre": {
+                  "Name": "Jazz"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+#+end_example
