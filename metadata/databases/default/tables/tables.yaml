@@ -1,0 +1,3 @@
+- "!include postgres.Album.yaml"
+- "!include postgres.Artist.yaml"
+- "!include postgres.Track.yaml"

@@ -1,0 +1,17 @@
+table:
+  - postgres.Track
+configuration:
+  column_config: {}
+  custom_column_names: {}
+  custom_name: Track
+  custom_root_fields: {}
+object_relationships:
+  - name: album
+    using:
+      manual_configuration:
+        column_mapping:
+          AlbumId: AlbumId
+        insertion_order: null
+        remote_table:
+          - postgres.Album
+logical_model: Track

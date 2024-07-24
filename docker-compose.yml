@@ -1,0 +1,66 @@
+version: '3.1'
+services:
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+  postgres:
+    image: postgres:16
+    ports:
+      - ${PGPORT}:5432
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    volumes:
+      - ./initdb.d-postgres:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: psql -U postgres -d chinook -c "select count(*) from \"Artist\""
+  mongo:
+    image: mongo:6
+    restart: always
+    ports:
+      - ${MGPORT}:27017
+    environment:
+      MONGO_INITDB_ROOT_PASSWORD: mongo
+      MONGO_INITDB_ROOT_USERNAME: mongo
+    volumes:
+      - ./initdb.d-mongo:/docker-entrypoint-initdb.d:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+  migrate:
+    profiles: [disabled]
+    build: .
+    depends_on:
+      postgres:
+        condition: service_healthy
+  mongo_data_connector:
+    image: hasura/mongo-data-connector:v2.38.0
+    depends_on:
+      - mongo
+    restart: always
+  hasura:
+    image: hasura/graphql-engine:v2.40.0.cli-migrations-v3
+    depends_on:
+      - mongo_data_connector
+    restart: always
+    ports:
+      - ${HGPORT}:8080
+    healthcheck:
+      test: curl -s http://localhost:8080/healthz
+      start_period: 60s
+    environment:
+      HASURA_GRAPHQL_ADMIN_SECRET: hasura
+      HASURA_GRAPHQL_DEV_MODE: true
+      HASURA_GRAPHQL_EE_LICENSE_KEY: ${HASURA_GRAPHQL_EE_LICENSE_KEY}
+      HASURA_GRAPHQL_ENABLE_CONSOLE: true
+      HASURA_GRAPHQL_MAX_CACHE_SIZE: 200
+      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgres@postgres/metadata
+      HASURA_GRAPHQL_METADATA_DEFAULTS: '{"backend_configs":{"dataconnector":{"Mongo":{"uri":"http://mongo_data_connector:3000"}}}}'
+      HASURA_GRAPHQL_RATE_LIMIT_REDIS_URL: redis://redis:6379
+      HASURA_GRAPHQL_REDIS_URL: redis://redis:6379
+      POSTGRES_URL: postgres://postgres:postgres@postgres/chinook
+    volumes:
+      - ./metadata:/hasura-metadata:ro

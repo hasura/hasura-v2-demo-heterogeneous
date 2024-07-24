@@ -1,0 +1,4 @@
+.env
+migrations
+chinook-supergraph/
+.dir-locals.el

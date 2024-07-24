@@ -1,0 +1,15 @@
+type ArtistHit {
+  objectID: String
+  name: String
+}
+
+type AlbumHit {
+  objectID: String
+  name: String
+}
+
+type TrackHit {
+  objectID: String
+  name: String
+}
+

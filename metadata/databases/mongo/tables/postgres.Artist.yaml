@@ -1,0 +1,17 @@
+table:
+  - postgres.Artist
+configuration:
+  column_config: {}
+  custom_column_names: {}
+  custom_name: Artist
+  custom_root_fields: {}
+array_relationships:
+  - name: albums
+    using:
+      manual_configuration:
+        column_mapping:
+          ArtistId: ArtistId
+        insertion_order: null
+        remote_table:
+          - postgres.Album
+logical_model: Artist

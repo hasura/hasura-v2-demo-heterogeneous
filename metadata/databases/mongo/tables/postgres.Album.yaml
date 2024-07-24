@@ -1,0 +1,26 @@
+table:
+  - postgres.Album
+configuration:
+  column_config: {}
+  custom_column_names: {}
+  custom_name: Album
+  custom_root_fields: {}
+object_relationships:
+  - name: artist
+    using:
+      manual_configuration:
+        column_mapping:
+          ArtistId: ArtistId
+        insertion_order: null
+        remote_table:
+          - postgres.Artist
+array_relationships:
+  - name: tracks
+    using:
+      manual_configuration:
+        column_mapping:
+          AlbumId: AlbumId
+        insertion_order: null
+        remote_table:
+          - postgres.Track
+logical_model: Album

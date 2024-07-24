@@ -1,0 +1,13 @@
+table:
+  name: Genre
+  schema: public
+remote_relationships:
+  - definition:
+      to_source:
+        field_mapping:
+          GenreId: GenreId
+        relationship_type: array
+        source: mongo
+        table:
+          - postgres.Track
+    name: tracks

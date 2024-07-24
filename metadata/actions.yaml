@@ -1,0 +1,9 @@
+actions: []
+custom_types:
+  enums: []
+  input_objects: []
+  objects:
+    - name: ArtistHit
+    - name: AlbumHit
+    - name: TrackHit
+  scalars: []

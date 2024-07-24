@@ -1,0 +1,13 @@
+table:
+  name: MediaType
+  schema: public
+remote_relationships:
+  - definition:
+      to_source:
+        field_mapping:
+          MediaTypeId: MediaTypeId
+        relationship_type: array
+        source: mongo
+        table:
+          - postgres.Track
+    name: tracks

@@ -1,0 +1,93 @@
+- name: mongo
+  kind: Mongo
+  configuration:
+    template: null
+    timeout: null
+    value:
+      connection: mongodb://mongo:mongo@mongo:27017/
+      db: admin
+  logical_models:
+    - fields:
+        - name: _id
+          type:
+            nullable: false
+            scalar: Int
+        - name: AlbumId
+          type:
+            nullable: false
+            scalar: Int
+        - name: Title
+          type:
+            nullable: false
+            scalar: String
+        - name: ArtistId
+          type:
+            nullable: false
+            scalar: Javascript
+      name: Album
+    - fields:
+        - name: _id
+          type:
+            nullable: false
+            scalar: Int
+        - name: ArtistId
+          type:
+            nullable: false
+            scalar: Int
+        - name: Name
+          type:
+            nullable: false
+            scalar: String
+      name: Artist
+    - fields:
+        - name: _id
+          type:
+            nullable: false
+            scalar: Int
+        - name: TrackId
+          type:
+            nullable: false
+            scalar: Int
+        - name: Name
+          type:
+            nullable: false
+            scalar: String
+        - name: AlbumId
+          type:
+            nullable: false
+            scalar: Int
+        - name: MediaTypeId
+          type:
+            nullable: false
+            scalar: Int
+        - name: GenreId
+          type:
+            nullable: false
+            scalar: Int
+        - name: Composer
+          type:
+            nullable: false
+            scalar: String
+        - name: Milliseconds
+          type:
+            nullable: false
+            scalar: String
+        - name: Bytes
+          type:
+            nullable: false
+            scalar: String
+        - name: UnitPrice
+          type:
+            nullable: false
+            scalar: String
+      name: Track
+  tables: "!include mongo/tables/tables.yaml"
+- name: postgres
+  kind: postgres
+  configuration:
+    connection_info:
+      database_url:
+        from_env: POSTGRES_URL
+      isolation_level: read-committed
+      use_prepared_statements: false
+  tables: "!include postgres/tables/tables.yaml"

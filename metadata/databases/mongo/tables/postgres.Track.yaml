@@ -1,0 +1,48 @@
+table:
+  - postgres.Track
+configuration:
+  column_config: {}
+  custom_column_names: {}
+  custom_name: Track
+  custom_root_fields: {}
+object_relationships:
+  - name: album
+    using:
+      manual_configuration:
+        column_mapping:
+          AlbumId: AlbumId
+        insertion_order: null
+        remote_table:
+          - postgres.Album
+remote_relationships:
+  - definition:
+      to_source:
+        field_mapping:
+          GenreId: GenreId
+        relationship_type: object
+        source: postgres
+        table:
+          name: Genre
+          schema: public
+    name: genre
+  - definition:
+      to_source:
+        field_mapping:
+          MediaTypeId: MediaTypeId
+        relationship_type: object
+        source: postgres
+        table:
+          name: MediaType
+          schema: public
+    name: mediatype
+  - definition:
+      to_source:
+        field_mapping:
+          TrackId: TrackId
+        relationship_type: array
+        source: postgres
+        table:
+          name: PlaylistTrack
+          schema: public
+    name: playlisttracks
+logical_model: Track
