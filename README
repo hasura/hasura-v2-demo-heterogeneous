@@ -48,7 +48,7 @@ For example...
 #+begin_src emacs-lisp
   '(("x-hasura-admin-secret" . "hasura"))
 #+end_src
-#+begin_src graphql :url http://localhost:8081/v1/graphql :headers my-headers
+#+begin_src graphql :url http://localhost:8081/v1/graphql :headers my-headers :exports both
 query MyQuery {
   Artist(limit: 10) {
     Name
