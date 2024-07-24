@@ -1,0 +1,33 @@
+# -*- mode: org; -*-
+
+#+STARTUP: indent
+
+* Steps
+
+** Step 1:  Clone this repository.
+
+#+begin_src bash :exports code
+  git clone https://github.com/hasura/hasura-v2-demo-heterogeneous.git
+#+end_src
+
+** Step 2:  Create a ~.env~ file.
+
+#+begin_src bash :exports code
+cat <<EOF > .env
+HASURA_GRAPHQL_EE_LICENSE_KEY=<Hasura license key>
+HASURA_GRAPHQL_ENDPOINT=<Hasura endpoint>
+HGPORT=<Hasura port>
+MGPORT=<mongo port>
+PGPORT=<postgres port>
+EOF
+#+end_src
+
+** Step 3:  Start the services.
+
+#+begin_src bash :exports code
+  docker-compose up
+#+end_src
+
+#+begin_src bash :exports code
+  docker compose up
+#+end_src
