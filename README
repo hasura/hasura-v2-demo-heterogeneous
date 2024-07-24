@@ -28,6 +28,8 @@ EOF
   docker-compose up
 #+end_src
 
+or..
+
 #+begin_src bash :exports code
   docker compose up
 #+end_src
