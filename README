@@ -19,6 +19,9 @@ Create a directory to work in and move to it.
   cd scratch
 #+end_src
 
+- What did this do? ::
+  This step 
+
 ** Step 2:  Create a PostgreSQL initialization directory.
 
 Create a directory to mount into the PostgreSQL container in order to
@@ -27,6 +30,9 @@ initialize the database.
 #+begin_src bash :exports code :session scratch :results none
   mkdir -p initdb.d-postgres
 #+end_src
+
+- What did this do? ::
+  This step 
 
 ** Step 3:  Download the PostgresSQL initialization files.
 
@@ -38,6 +44,9 @@ directory.
   wget -O initdb.d-postgres/04_chinook_ddl.sql https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-postgres/04_chinook_ddl.sql?token=GHSAT0AAAAAACU4IFOZRCCNAD67ALMMVVWSZVJK5ZQ
   wget -O initdb.d-postgres/05_chinook_dml.sql https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-postgres/05_chinook_dml.sql?token=GHSAT0AAAAAACU4IFOZ2CYRGAADVAHVUCOYZVJK53A
 #+end_src
+
+- What did this do? ::
+  This step 
 
 ** Step 4:  Scaffold the Docker Compose file.
 
@@ -56,6 +65,9 @@ version: '3.1'
 services:
 EOF
 #+end_src
+
+- What did this do? ::
+  This step 
 
 ** Step 5:  Add the ~postgres~ service.
 
@@ -93,6 +105,9 @@ cat <<'EOF' >> docker-compose.yaml
 EOF
 #+end_src
 
+- What did this do? ::
+  This step 
+
 ** Step 6:  Set environment variables.
 
 Set environment variables to be used by Docker Compose but which
@@ -105,6 +120,9 @@ should not be hard-coded into the Docker Compose file.
   export PGDATABASE=chinook
   export PGHOST=localhost
 #+end_src
+
+- What did this do? ::
+  This step 
 
 ** Step 7:  Test the PostgreSQL service.
 
@@ -127,6 +145,9 @@ initialized.
 :   3503
 : (1 row)
 
+- What did this do? ::
+  This step 
+
 ** Step 8:  Create a MongoDB initialization directory.
 
 Create a directory to mount into the MongoDB container in order to
@@ -135,6 +156,9 @@ initialize the database.
 #+begin_src bash :exports code :session scratch :results none
   mkdir -p initdb.d-mongo
 #+end_src
+
+- What did this do? ::
+  This step 
 
 ** Step 9:  Download the MongoDB initialization files.
 
@@ -147,6 +171,9 @@ directory.
   wget -O initdb.d-mongo/postgres.Artist.json https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-mongo/postgres.Artist.json?token=GHSAT0AAAAAACU4IFOZIHWEZHDLYAEWVKW4ZVJMS5A
   wget -O initdb.d-mongo/postgres.Track.json https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-mongo/postgres.Track.json?token=GHSAT0AAAAAACU4IFOYJBMR6SRKNKXAOVWMZVJMW4A
 #+end_src
+
+- What did this do? ::
+  This step 
 
 ** Step 10:  Add the ~mongo~ service.
 
@@ -186,6 +213,9 @@ cat <<'EOF' >> docker-compose.yaml
 EOF
 #+end_src
 
+- What did this do? ::
+  This step 
+
 ** Step 11:  Set environment variables.
 
 Set environment variables to be used by Docker Compose but which
@@ -194,6 +224,9 @@ should not be hard-coded into the Docker Compose file.
 #+begin_src bash :exports code :session scratch :results none
   export MGPORT=27018		# or your own port
 #+end_src
+
+- What did this do? ::
+  This step 
 
 ** Step 12:  Test the MongoDB service.
 
@@ -218,6 +251,9 @@ initialized.
 :   ArtistId: 1
 : }
 
+- What did this do? ::
+  This step 
+
 ** Step 13:  Add the ~mongo_data_connector~ service.
 
 Use a code editor to add a stanza for the ~mongo-data-connector~
@@ -241,6 +277,9 @@ cat <<'EOF' >> docker-compose.yaml
 EOF
 #+end_src
 
+- What did this do? ::
+  This step 
+
 ** Step 14:  Add the ~redis~ service.
 
 Use a code editor to add a stanza for the ~redis~ service.
@@ -258,6 +297,9 @@ cat <<'EOF' >> docker-compose.yaml
     image: redis:latest
 EOF
 #+end_src
+
+- What did this do? ::
+  This step 
 
 ** Step 15:  Add Hasura.
 
@@ -313,6 +355,9 @@ cat <<'EOF' >> docker-compose.yaml
 EOF
 #+end_src
 
+- What did this do? ::
+  This step 
+
 ** Step 16:  Set environment variables.
 
 Set environment variables to be used by Docker Compose but which
@@ -323,6 +368,9 @@ should not be hard-coded into the Docker Compose file
   export HGPORT=8081		# or your own port
 #+end_src
 
+- What did this do? ::
+  This step 
+
 ** Step 17:  Start the ~mongo_data_connector~, ~redis~ and ~hasura~ services.
 
 Use Docker Compose to start the ~mongo_data_connector~, ~redis~ and
@@ -332,6 +380,9 @@ Use Docker Compose to start the ~mongo_data_connector~, ~redis~ and
   docker compose up -d mongo_data_connector redis hasura
 #+end_src
 
+- What did this do? ::
+  This step 
+
 ** Step 18:  Open the Hasura Console and log in.
 
 Open a browser to the Hasura Console.
@@ -339,3 +390,6 @@ Open a browser to the Hasura Console.
 #+begin_src bash :exports code :session scratch :results none
   xdg-open http://localhost:8081	# or your own port
 #+end_src
+
+- What did this do? ::
+  This step 
