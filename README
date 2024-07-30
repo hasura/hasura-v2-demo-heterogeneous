@@ -22,6 +22,8 @@ PGPORT=<postgres port>
 EOF
 #+end_src
 
+#+RESULTS:
+
 ** Step 3:  Start the services.
 
 #+begin_src bash :exports code
