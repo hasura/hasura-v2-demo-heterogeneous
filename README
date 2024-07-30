@@ -8,7 +8,7 @@
 
 * How
 
-* Steps
+* Part A:  At the Command Line
 
 ** Step 1:  Create a new directory.
 
@@ -393,3 +393,5 @@ Open a browser to the Hasura Console.
 
 - What did this do? ::
   This step 
+
+* Part B:  In Hasura Console
