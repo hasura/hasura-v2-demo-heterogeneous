@@ -418,4 +418,4 @@ xdg-open http://localhost:8081	# or your own port
 docker exec scratch-mongo-1 mongosh --quiet -u mongo -p mongo --eval "EJSON.stringify(db.postgres.Artist.findOne())" admin
 ```
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/y5Gy__xLQhk?si=HJ0DcKbODc8Ed0g9" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+[2024-07-31_10-53-36.webm](https://github.com/user-attachments/assets/77424ec0-e1ed-4241-92e8-7ed3ea5ba261)
