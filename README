@@ -33,7 +33,7 @@ once all the services have been launched.
 
 Create a directory to work in and move to it.
 
-#+begin_src bash :exports code :session scratch :results none
+#+begin_src bash :eval never-export :exports code :session scratch :results none
   rm -rf scratch
   mkdir -p scratch
   cd scratch
@@ -47,7 +47,7 @@ Create a directory to work in and move to it.
 Create a directory to mount into the PostgreSQL container in order to
 initialize the database.
 
-#+begin_src bash :exports code :session scratch :results none
+#+begin_src bash :eval never-export :exports code :session scratch :results none
   mkdir -p initdb.d-postgres
 #+end_src
 
@@ -61,7 +61,7 @@ initialize the database.
 Download PostgreSQL initialization scripts into its initialization
 directory.
 
-#+begin_src bash :exports code :session scratch :results none
+#+begin_src bash :eval never-export :exports code :session scratch :results none
   wget -O initdb.d-postgres/03_chinook_database.sql https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-postgres/03_chinook_database.sql
   wget -O initdb.d-postgres/04_chinook_ddl.sql https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-postgres/04_chinook_ddl.sql
   wget -O initdb.d-postgres/05_chinook_dml.sql https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-postgres/05_chinook_dml.sql
@@ -82,7 +82,7 @@ services:
 
 Alternatively, add to the file from the command line.
 
-#+begin_src bash :exports code :session scratch :results none
+#+begin_src bash :eval never-export :exports code :session scratch :results none
 cat <<'EOF' > docker-compose.yaml
 version: '3.1'
 services:
@@ -111,7 +111,7 @@ Use a code editor to add a stanza for the ~postgres~ service.
 
 Alternatively, add to the file from the command line.
 
-#+begin_src bash :exports code :session scratch :results none
+#+begin_src bash :eval never-export :exports code :session scratch :results none
 cat <<'EOF' >> docker-compose.yaml
   postgres:
     image: postgres:16          # Use a modern version of PostgreSQL.
@@ -140,14 +140,14 @@ EOF
 
 Use Docker Compose to start the ~postgres~ service.
 
-#+begin_src bash :exports code :session scratch :results none
+#+begin_src bash :eval never-export :exports code :session scratch :results none
   docker compose up -d postgres
 #+end_src
 
 Run a query against the database to verify that it has been
 initialized.
 
-#+begin_src bash :exports code :session scratch :results output
+#+begin_src bash :eval never-export :exports code :session scratch :results output
   docker exec scratch-postgres-1 psql -U postgres -d chinook -c "select count(*) from \"Artist\""
 #+end_src
 
@@ -166,7 +166,7 @@ initialized.
 Create a directory to mount into the MongoDB container in order to
 initialize the database.
 
-#+begin_src bash :exports code :session scratch :results none
+#+begin_src bash :eval never-export :exports code :session scratch :results none
   mkdir -p initdb.d-mongo
 #+end_src
 
@@ -180,7 +180,7 @@ initialize the database.
 Download Mongo DB initialization files into its initialization
 directory.
 
-#+begin_src bash :exports code :session scratch :results none
+#+begin_src bash :eval never-export :exports code :session scratch :results none
   wget -O initdb.d-mongo/01_import_data.sh https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-mongo/01_import_data.sh
   wget -O initdb.d-mongo/postgres.Album.json https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-mongo/postgres.Album.json
   wget -O initdb.d-mongo/postgres.Artist.json https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-mongo/postgres.Artist.json
@@ -210,7 +210,7 @@ Use a code editor to add a stanza for the ~mongo~ service.
 
 Alternatively, add to the file from the command line.
 
-#+begin_src bash :exports code :session scratch :results none
+#+begin_src bash :eval never-export :exports code :session scratch :results none
 cat <<'EOF' >> docker-compose.yaml
   mongo:
     image: mongo:6              # Use a modern version of MongoDB.
@@ -233,14 +233,14 @@ EOF
 
 User Docker Compose to start the ~mongo~ service.
 
-#+begin_src bash :exports code :session scratch :results none
+#+begin_src bash :eval never-export :exports code :session scratch :results none
   docker compose up -d mongo
 #+end_src
 
 Run a query against the database to verify that it has been
 initialized.
 
-#+begin_src bash :exports code :session scratch :results output
+#+begin_src bash :eval never-export :exports code :session scratch :results output
   docker exec scratch-mongo-1 mongosh --quiet -u mongo -p mongo --eval "db.postgres.Album.findOne()" admin 
 #+end_src
 
@@ -287,7 +287,7 @@ service.
 
 Alternatively, add to the file from the command line.
 
-#+begin_src bash :exports code :session scratch :results none
+#+begin_src bash :eval never-export :exports code :session scratch :results none
 cat <<'EOF' >> docker-compose.yaml
   mongo_data_connector:         # Start the connector agent.
     image: hasura/mongo-data-connector:v2.38.0
@@ -312,7 +312,7 @@ Use a code editor to add a stanza for the ~redis~ service.
 
 Alternatively, add to the file from the command line.
 
-#+begin_src bash :exports code :session scratch :results none
+#+begin_src bash :eval never-export :exports code :session scratch :results none
 cat <<'EOF' >> docker-compose.yaml
   redis:
     image: redis:latest
@@ -353,7 +353,7 @@ Use a code editor to add a stanza for the ~hasura~ service.
 
 Alternatively, add to the file from the command line.
 
-#+begin_src bash :exports code :session scratch :results none
+#+begin_src bash :eval never-export :exports code :session scratch :results none
 cat <<'EOF' >> docker-compose.yaml
   hasura:                       # Start Hasura.
     image: hasura/graphql-engine:v2.40.0
@@ -385,7 +385,7 @@ EOF
 Set environment variables to be used by Docker Compose but which
 should not be hard-coded into the Docker Compose file
 
-#+begin_src bash :exports code :session scratch :results none
+#+begin_src bash :eval never-export :exports code :session scratch :results none
   export HASURA_GRAPHQL_EE_LICENSE_KEY=<your EE license key>
   export HGPORT=8081		# or your own port
 #+end_src
@@ -407,7 +407,7 @@ should not be hard-coded into the Docker Compose file
 Use Docker Compose to start the ~mongo_data_connector~, ~redis~ and
 ~hasura~ services.
 
-#+begin_src bash :exports code :session scratch :results none
+#+begin_src bash :eval never-export :exports code :session scratch :results none
   docker compose up -d mongo_data_connector redis hasura
 #+end_src
 
@@ -418,7 +418,7 @@ Use Docker Compose to start the ~mongo_data_connector~, ~redis~ and
 
 Open a browser to the Hasura Console.
 
-#+begin_src bash :exports code :session scratch :results none
+#+begin_src bash :eval never-export :exports code :session scratch :results none
   xdg-open http://localhost:8081	# or your own port
 #+end_src
 
@@ -429,13 +429,11 @@ Open a browser to the Hasura Console.
 
 * Part B:  In Hasura Console
 
-#+begin_src bash :exports both :session scratch :results output
+[[file:2024-07-31_10-53-36.webm]]
+
+#+begin_src bash :eval never-export :exports both :session scratch :results output
 docker exec scratch-mongo-1 mongosh --quiet -u mongo -p mongo --eval "EJSON.stringify(db.postgres.Artist.findOne())" admin
 #+end_src
-
-#+begin_html
-<iframe width="560" height="315" src="https://www.youtube.com/embed/y5Gy__xLQhk?si=HJ0DcKbODc8Ed0g9" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-#+end_html
 
 #+begin_export html
 <iframe width="560" height="315" src="https://www.youtube.com/embed/y5Gy__xLQhk?si=HJ0DcKbODc8Ed0g9" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
