@@ -412,8 +412,6 @@ xdg-open http://localhost:8081	# or your own port
 
 # Part B:  In Hasura Console
 
-<2024-07-31_10-53-36.mp4>
-
 ```bash
 docker exec scratch-mongo-1 mongosh --quiet -u mongo -p mongo --eval "EJSON.stringify(db.postgres.Artist.findOne())" admin
 ```

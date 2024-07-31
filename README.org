@@ -152,7 +152,7 @@ initialized.
 #+end_src
 
 #+RESULTS:
-: count 
+: count
 : -------
 :    276
 : (1 row)
@@ -189,7 +189,7 @@ directory.
 
 - What did this do? ::
   This step downloaded MongoDB initialization scripts and related data
-  files from this GitHub repository.  
+  files from this GitHub repository.
 
 ** Step 10:  Add the ~mongo~ service.
 
@@ -241,7 +241,7 @@ Run a query against the database to verify that it has been
 initialized.
 
 #+begin_src bash :eval never-export :exports code :session scratch :results output
-  docker exec scratch-mongo-1 mongosh --quiet -u mongo -p mongo --eval "db.postgres.Album.findOne()" admin 
+  docker exec scratch-mongo-1 mongosh --quiet -u mongo -p mongo --eval "db.postgres.Album.findOne()" admin
 #+end_src
 
 #+RESULTS:
@@ -378,7 +378,7 @@ EOF
 #+end_src
 
 - What did this do? ::
-  This step added a service to the Docker Compose file for ~hasura~.  
+  This step added a service to the Docker Compose file for ~hasura~.
 
 ** Step 16:  Set environment variables.
 
@@ -412,7 +412,7 @@ Use Docker Compose to start the ~mongo_data_connector~, ~redis~ and
 #+end_src
 
 - What did this do? ::
-  This step 
+  This step
 
 ** Step 18:  Open the Hasura Console and log in.
 
@@ -425,16 +425,88 @@ Open a browser to the Hasura Console.
 - What did this do? ::
   This step just launched a web browser to the running instance of
   graphql-engine, which will cause the Hasura Console interface to
-  appear. 
+  appear.
 
 * Part B:  In Hasura Console
 
-[[file:2024-07-31_10-53-36.mp4]]
+** Step 1:  Add the postgres database.
+
+Use Hasura Console as illustrated here to add the ~postgres~ database.
+
+The database url is: ~postgres://postgres:postgres@postgres/chinook~.
+
+[[2024-07-31_10-53-36.webm][https://github.com/user-attachments/assets/77424ec0-e1ed-4241-92e8-7ed3ea5ba261]]
+
+- What did this do? ::
+  This step used Hasura Console to edit the Hasura metadata in order
+  to add the ~postgres~ database (itself a Docker Compose service) as
+  a data source.
+
+** Step 2:  Add the mongo database.
+
+Use Hasura Console as illustrated here to add the ~mongo~ daatabase.
+
+The database url is:  ~mongodb://mongo:mongo@mongo:27017~
+
+The database is:  ~admin~
+
+[[2024-07-31_11-23-07.webm][https://github.com/user-attachments/assets/9b2c7c46-d7e3-41ef-aa81-c39f77feaabc]]
+
+- What did this do? ::
+  This step used Hasura Console to edit the Hasura metadata in order to
+  add the ~mongo~ database (also a Docker Compose service) as a data
+  source. 
+
+** Step 3:  Track the postgres tables.
+
+Use Hasura Console as illustrated here to track /some/ of the
+~postgres~ tables:
+
+- Genre
+- MediaType
+- Playlist
+- PlaylistTrack
+- Customer
+- Invoice
+- InvoiceLine
+
+Do not track these tables:
+
+- Artist
+- Album
+- Track
+
+The reason not to track these tables in the ~postgres~ database is
+that these data will instead be brought in from the ~mongo~ database.
+
+[[2024-07-31_11-36-06.webm][https://github.com/user-attachments/assets/037e9b98-f69c-4124-bc99-89a6ae6527a5]]
+
+- What did this do? ::
+  This step used Hasura Console to edit the Hasura metadata in order
+  to "track" these tables, which means to add them to the GraphQL API. 
+
+** Step 4:  Track the mongo collections.
+
+Use Hasura Console as illustrated here to track the ~mongo~
+collections.
+
+Note that because MongoDB is a document database and can hold data
+without a schema, an extra step is involved to choose the type for the
+GraphQL schema.  A sample document from the MongoDB collection is
+taken and used to generate corresponding Hasura Logical Models.  To do
+this, run these commands and copy the output into Hasura Console when
+track the collections.
 
 #+begin_src bash :eval never-export :exports both :session scratch :results output
 docker exec scratch-mongo-1 mongosh --quiet -u mongo -p mongo --eval "EJSON.stringify(db.postgres.Artist.findOne())" admin
+docker exec scratch-mongo-1 mongosh --quiet -u mongo -p mongo --eval "EJSON.stringify(db.postgres.Album.findOne())" admin
+docker exec scratch-mongo-1 mongosh --quiet -u mongo -p mongo --eval "EJSON.stringify(db.postgres.Track.findOne())" admin
 #+end_src
 
-#+begin_export html
-<iframe width="560" height="315" src="https://www.youtube.com/embed/y5Gy__xLQhk?si=HJ0DcKbODc8Ed0g9" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-#+end_export
+[[2024-07-31_11-45-06.webm][https://github.com/user-attachments/assets/c514385b-5641-41d7-aa1f-080688657943]]
+
+** Step 5:  Try a sample query.
+
+[[2024-07-31_11-58-04.webm][https://github.com/user-attachments/assets/fcb542bf-1338-49a0-b6c2-41f7674d458b]]
+
+
