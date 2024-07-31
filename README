@@ -349,7 +349,6 @@ Use a code editor to add a stanza for the ~hasura~ service.
       HASURA_GRAPHQL_METADATA_DEFAULTS: '{"backend_configs":{"dataconnector":{"Mongo":{"uri":"http://mongo_data_connector:3000"}}}}' # Tell Hasura about the connector agent.
       HASURA_GRAPHQL_RATE_LIMIT_REDIS_URL: redis://redis:6379 # Set the Redis URL for rate-limiting.
       HASURA_GRAPHQL_REDIS_URL: redis://redis:6379            # Use the same Redis URL for caching.
-      POSTGRES_URL: postgres://postgres:postgres@postgres/chinook # Set a database URL environment variable.
 #+end_src
 
 Alternatively, add to the file from the command line.
@@ -375,7 +374,6 @@ cat <<'EOF' >> docker-compose.yaml
       HASURA_GRAPHQL_METADATA_DEFAULTS: '{"backend_configs":{"dataconnector":{"Mongo":{"uri":"http://mongo_data_connector:3000"}}}}' # Tell Hasura about the connector agent.
       HASURA_GRAPHQL_RATE_LIMIT_REDIS_URL: redis://redis:6379 # Set the Redis URL for rate-limiting.
       HASURA_GRAPHQL_REDIS_URL: redis://redis:6379            # Use the same Redis URL for caching.
-      POSTGRES_URL: postgres://postgres:postgres@postgres/chinook # Set a database URL environment variable.
 EOF
 #+end_src
 
@@ -430,3 +428,11 @@ Open a browser to the Hasura Console.
   appear. 
 
 * Part B:  In Hasura Console
+
+#+begin_src bash :exports both :session scratch :results output
+docker exec scratch-mongo-1 mongosh --quiet -u mongo -p mongo --eval "EJSON.stringify(db.postgres.Artist.findOne())" admin
+#+end_src
+
+#+begin_html
+<iframe width="560" height="315" src="https://www.youtube.com/embed/y5Gy__xLQhk?si=HJ0DcKbODc8Ed0g9" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+#+end_html
