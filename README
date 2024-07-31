@@ -4,9 +4,28 @@
 
 * What
 
+This project comprises instructions for setting up heterogeneous data
+sources with Hasura v2.
+
 * Why
 
+There can never be too many tutorials, walk-throughs, and lighted
+pathways for setting up Hasura.  This is yet another one.
+
 * How
+
+This project uses Docker Compose to launch services for PostgreSQL,
+for MongoDB, for Redis, for Hasura, and for a Hasura Data Connector.
+It also relies on a handful of environment variables to be supplied by
+the user.  As a tutorial, it is divided into two parts:  Part A and
+Part B.
+
+Part A offers a sequence of steps to be performed at the Command Line
+and optionally in a text editor, to create a Docker Compose file and
+to acquire suppporting initialization files to create the services.
+
+Part B offers a sequence of steps to be performed in Hasura Console
+once all the services have been launched.
 
 * Part A:  At the Command Line
 
@@ -15,12 +34,13 @@
 Create a directory to work in and move to it.
 
 #+begin_src bash :exports code :session scratch :results none
+  rm -rf scratch
   mkdir -p scratch
   cd scratch
 #+end_src
 
 - What did this do? ::
-  This step 
+  This step just creates a scratch workspace for the project.
 
 ** Step 2:  Create a PostgreSQL initialization directory.
 
@@ -32,7 +52,9 @@ initialize the database.
 #+end_src
 
 - What did this do? ::
-  This step 
+  This step creates a directory that will be mounted into the
+  PostgreSQL container as a volume, in a special directory that the
+  container image uses to access initialization files.
 
 ** Step 3:  Download the PostgresSQL initialization files.
 
@@ -40,13 +62,14 @@ Download PostgreSQL initialization scripts into its initialization
 directory.
 
 #+begin_src bash :exports code :session scratch :results none
-  wget -O initdb.d-postgres/03_chinook_database.sql https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-postgres/03_chinook_database.sql?token=GHSAT0AAAAAACU4IFOYXZX42LRNWXHFUIFAZVJK5YQ
-  wget -O initdb.d-postgres/04_chinook_ddl.sql https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-postgres/04_chinook_ddl.sql?token=GHSAT0AAAAAACU4IFOZRCCNAD67ALMMVVWSZVJK5ZQ
-  wget -O initdb.d-postgres/05_chinook_dml.sql https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-postgres/05_chinook_dml.sql?token=GHSAT0AAAAAACU4IFOZ2CYRGAADVAHVUCOYZVJK53A
+  wget -O initdb.d-postgres/03_chinook_database.sql https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-postgres/03_chinook_database.sql
+  wget -O initdb.d-postgres/04_chinook_ddl.sql https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-postgres/04_chinook_ddl.sql
+  wget -O initdb.d-postgres/05_chinook_dml.sql https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-postgres/05_chinook_dml.sql
 #+end_src
 
 - What did this do? ::
-  This step 
+  This step downloaded PostgreSQL SQL initialization files from this
+  GitHub repository, with DDL and DML for the Chinook sample database.
 
 ** Step 4:  Scaffold the Docker Compose file.
 
@@ -67,7 +90,9 @@ EOF
 #+end_src
 
 - What did this do? ::
-  This step 
+  This step added the Docker Compose preamble to the
+  ~docker-compose.yaml~ file to set the version and create the
+  ~services~ node.
 
 ** Step 5:  Add the ~postgres~ service.
 
@@ -76,11 +101,8 @@ Use a code editor to add a stanza for the ~postgres~ service.
 #+begin_src yaml
   postgres:
     image: postgres:16          # Use a modern version of PostgreSQL.
-    ports:
-      - ${PGPORT}:5432          # Expose it on a port taken from an environment variable.
     environment:                # Set its superuser username and password.
       POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
     volumes:                    # Initialize from the contents of the initialization directory.
       - ./initdb.d-postgres:/docker-entrypoint-initdb.d:ro
     healthcheck:                # Use a sensible healthcheck.
@@ -93,11 +115,8 @@ Alternatively, add to the file from the command line.
 cat <<'EOF' >> docker-compose.yaml
   postgres:
     image: postgres:16          # Use a modern version of PostgreSQL.
-    ports:
-      - ${PGPORT}:5432          # Expose it on a port taken from an environment variable.
     environment:                # Set its superuser username and password.
       POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
     volumes:                    # Initialize from the contents of the initialization directory.
       - ./initdb.d-postgres:/docker-entrypoint-initdb.d:ro
     healthcheck:                # Use a sensible healthcheck.
@@ -106,23 +125,16 @@ EOF
 #+end_src
 
 - What did this do? ::
-  This step 
-
-** Step 6:  Set environment variables.
-
-Set environment variables to be used by Docker Compose but which
-should not be hard-coded into the Docker Compose file.
-
-#+begin_src bash :exports code :session scratch :results none
-  export PGPORT=5433		# or your own port
-  export PGUSER=postgres
-  export PGPASSWORD=postgres
-  export PGDATABASE=chinook
-  export PGHOST=localhost
-#+end_src
-
-- What did this do? ::
-  This step 
+  This step addes the ~postgres~ service.  PostgreSQL is used /both/
+  as a Hasura data source /and/ as the Hasura metadata database.  In a
+  more realistic setting, typically these will be different databases.
+  In a tutorial, keeping them in one database is simpler.  The Hasura
+  metadata database is largel of incidental importance for this
+  tutorial, since its only role is as a channel for synchronizing
+  metadata changes across a horizontally-scaled cluster of Hasura
+  instances.  With only one instance, that obviously is irrelevant for
+  this tutorial.  Nevertheless, the presence of a metadata database is
+  a /requirement/ for Hasura v2 even to start.
 
 ** Step 7:  Test the PostgreSQL service.
 
@@ -136,17 +148,18 @@ Run a query against the database to verify that it has been
 initialized.
 
 #+begin_src bash :exports code :session scratch :results output
-  docker exec scratch-postgres-1 psql -U postgres -d chinook -c "select count(*) from \"Track\""
+  docker exec scratch-postgres-1 psql -U postgres -d chinook -c "select count(*) from \"Artist\""
 #+end_src
 
 #+RESULTS:
 : count 
 : -------
-:   3503
+:    276
 : (1 row)
 
 - What did this do? ::
-  This step 
+  This step launched the Docker Compose ~postgres~ service and ran a
+  test query just to validate that it has been initialized properly.
 
 ** Step 8:  Create a MongoDB initialization directory.
 
@@ -158,22 +171,25 @@ initialize the database.
 #+end_src
 
 - What did this do? ::
-  This step 
+  This step creates a directory that will be mounted into the MongoDB
+  container as a volume, in a special directory that the container
+  image uses to access initialization files.
 
 ** Step 9:  Download the MongoDB initialization files.
 
-Download Mongo DB initializaiton files into its initialization
+Download Mongo DB initialization files into its initialization
 directory.
 
 #+begin_src bash :exports code :session scratch :results none
-  wget -O initdb.d-mongo/01_import_data.sh https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-mongo/01_import_data.sh?token=GHSAT0AAAAAACU4IFOZPD2F2WPQSJYCFR6OZVJMS2Q
-  wget -O initdb.d-mongo/postgres.Album.json https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-mongo/postgres.Album.json?token=GHSAT0AAAAAACU4IFOZEMZRK75GBGH2526QZVJMS4A
-  wget -O initdb.d-mongo/postgres.Artist.json https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-mongo/postgres.Artist.json?token=GHSAT0AAAAAACU4IFOZIHWEZHDLYAEWVKW4ZVJMS5A
-  wget -O initdb.d-mongo/postgres.Track.json https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-mongo/postgres.Track.json?token=GHSAT0AAAAAACU4IFOYJBMR6SRKNKXAOVWMZVJMW4A
+  wget -O initdb.d-mongo/01_import_data.sh https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-mongo/01_import_data.sh
+  wget -O initdb.d-mongo/postgres.Album.json https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-mongo/postgres.Album.json
+  wget -O initdb.d-mongo/postgres.Artist.json https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-mongo/postgres.Artist.json
+  wget -O initdb.d-mongo/postgres.Track.json https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-mongo/postgres.Track.json
 #+end_src
 
 - What did this do? ::
-  This step 
+  This step downloaded MongoDB initialization scripts and related data
+  files from this GitHub repository.  
 
 ** Step 10:  Add the ~mongo~ service.
 
@@ -182,8 +198,6 @@ Use a code editor to add a stanza for the ~mongo~ service.
 #+begin_src yaml
   mongo:
     image: mongo:6              # Use a modern version of MongoDB.
-    ports:
-      - ${MGPORT}:27017         # Expose it on a port taken from an environment variable.
     environment:                # Set its superuser username and password.
       MONGO_INITDB_ROOT_PASSWORD: mongo
       MONGO_INITDB_ROOT_USERNAME: mongo
@@ -200,8 +214,6 @@ Alternatively, add to the file from the command line.
 cat <<'EOF' >> docker-compose.yaml
   mongo:
     image: mongo:6              # Use a modern version of MongoDB.
-    ports:
-      - ${MGPORT}:27017         # Expose it on a port taken from an environment variable.
     environment:                # Set its superuser username and password.
       MONGO_INITDB_ROOT_PASSWORD: mongo
       MONGO_INITDB_ROOT_USERNAME: mongo
@@ -214,19 +226,8 @@ EOF
 #+end_src
 
 - What did this do? ::
-  This step 
-
-** Step 11:  Set environment variables.
-
-Set environment variables to be used by Docker Compose but which
-should not be hard-coded into the Docker Compose file.
-
-#+begin_src bash :exports code :session scratch :results none
-  export MGPORT=27018		# or your own port
-#+end_src
-
-- What did this do? ::
-  This step 
+  This step added a stanza for the ~mongo~ service to the Docker
+  Compose file.
 
 ** Step 12:  Test the MongoDB service.
 
@@ -244,15 +245,33 @@ initialized.
 #+end_src
 
 #+RESULTS:
-: {
-:   _id: ObjectId('6637f6cc7cda30b626bb1d07'),
-:   AlbumId: 1,
-:   Title: 'For Those About To Rock We Salute You',
-:   ArtistId: 1
-: }
+#+begin_example
+{"t":{"$date":"2024-07-31T16:11:44.295+00:00"},"s":"I",  "c":"NETWORK",  "id":22943,   "ctx":"listener","msg":"Connection accepted","attr":{"remote":"127.0.0.1:42454","uuid":"7016f115-1f92-4233-86db-6f2590d63450","connectionId":5,"connectionCount":1}}
+{"t":{"$date":"2024-07-31T16:11:44.299+00:00"},"s":"I",  "c":"NETWORK",  "id":51800,   "ctx":"conn5","msg":"client metadata","attr":{"remote":"127.0.0.1:42454","client":"conn5","negotiatedCompressors":[],"doc":{"application":{"name":"mongosh 2.2.10"},"driver":{"name":"nodejs|mongosh","version":"6.7.0|2.2.10"},"platform":"Node.js v20.12.2, LE","os":{"name":"linux","architecture":"x64","version":"3.10.0-327.22.2.el7.x86_64","type":"Linux"},"env":{"container":{"runtime":"docker"}}}}}
+{"t":{"$date":"2024-07-31T16:11:44.302+00:00"},"s":"I",  "c":"NETWORK",  "id":22943,   "ctx":"listener","msg":"Connection accepted","attr":{"remote":"127.0.0.1:42464","uuid":"848d583f-9ca6-4b7a-a288-31101cfe3f3a","connectionId":6,"connectionCount":2}}
+{"t":{"$date":"2024-07-31T16:11:44.303+00:00"},"s":"I",  "c":"NETWORK",  "id":51800,   "ctx":"conn6","msg":"client metadata","attr":{"remote":"127.0.0.1:42464","client":"conn6","negotiatedCompressors":[],"doc":{"application":{"name":"mongosh 2.2.10"},"driver":{"name":"nodejs|mongosh","version":"6.7.0|2.2.10"},"platform":"Node.js v20.12.2, LE","os":{"name":"linux","architecture":"x64","version":"3.10.0-327.22.2.el7.x86_64","type":"Linux"},"env":{"container":{"runtime":"docker"}}}}}
+{"t":{"$date":"2024-07-31T16:11:44.308+00:00"},"s":"I",  "c":"ACCESS",   "id":20250,   "ctx":"conn6","msg":"Authentication succeeded","attr":{"mechanism":"SCRAM-SHA-256","speculative":true,"principalName":"mongo","authenticationDatabase":"admin","remote":"127.0.0.1:42464","extraInfo":{}}}
+{"t":{"$date":"2024-07-31T16:11:44.348+00:00"},"s":"I",  "c":"NETWORK",  "id":22943,   "ctx":"listener","msg":"Connection accepted","attr":{"remote":"127.0.0.1:42466","uuid":"9aa0c2af-d600-4be6-bef6-48d03bc31985","connectionId":7,"connectionCount":3}}
+{"t":{"$date":"2024-07-31T16:11:44.348+00:00"},"s":"I",  "c":"NETWORK",  "id":22943,   "ctx":"listener","msg":"Connection accepted","attr":{"remote":"127.0.0.1:42470","uuid":"ef6cc7b1-ccc4-4a6e-8d07-641d5d742b4b","connectionId":8,"connectionCount":4}}
+{"t":{"$date":"2024-07-31T16:11:44.352+00:00"},"s":"I",  "c":"NETWORK",  "id":51800,   "ctx":"conn7","msg":"client metadata","attr":{"remote":"127.0.0.1:42466","client":"conn7","negotiatedCompressors":[],"doc":{"application":{"name":"mongosh 2.2.10"},"driver":{"name":"nodejs|mongosh","version":"6.7.0|2.2.10"},"platform":"Node.js v20.12.2, LE","os":{"name":"linux","architecture":"x64","version":"3.10.0-327.22.2.el7.x86_64","type":"Linux"},"env":{"container":{"runtime":"docker"}}}}}
+{"t":{"$date":"2024-07-31T16:11:44.352+00:00"},"s":"I",  "c":"NETWORK",  "id":51800,   "ctx":"conn8","msg":"client metadata","attr":{"remote":"127.0.0.1:42470","client":"conn8","negotiatedCompressors":[],"doc":{"application":{"name":"mongosh 2.2.10"},"driver":{"name":"nodejs|mongosh","version":"6.7.0|2.2.10"},"platform":"Node.js v20.12.2, LE","os":{"name":"linux","architecture":"x64","version":"3.10.0-327.22.2.el7.x86_64","type":"Linux"},"env":{"container":{"runtime":"docker"}}}}}
+{"t":{"$date":"2024-07-31T16:11:44.353+00:00"},"s":"I",  "c":"ACCESS",   "id":20250,   "ctx":"conn7","msg":"Authentication succeeded","attr":{"mechanism":"SCRAM-SHA-256","speculative":true,"principalName":"mongo","authenticationDatabase":"admin","remote":"127.0.0.1:42466","extraInfo":{}}}
+{"t":{"$date":"2024-07-31T16:11:44.354+00:00"},"s":"I",  "c":"ACCESS",   "id":20250,   "ctx":"conn8","msg":"Authentication succeeded","attr":{"mechanism":"SCRAM-SHA-256","speculative":true,"principalName":"mongo","authenticationDatabase":"admin","remote":"127.0.0.1:42470","extraInfo":{}}}
+{
+  _id: ObjectId('6637f6cc7cda30b626bb1d07'),
+  AlbumId: 1,
+  Title: 'For Those About To Rock We Salute You',
+  ArtistId: 1
+}
+{"t":{"$date":"2024-07-31T16:11:44.365+00:00"},"s":"I",  "c":"NETWORK",  "id":22944,   "ctx":"conn8","msg":"Connection ended","attr":{"remote":"127.0.0.1:42470","uuid":"ef6cc7b1-ccc4-4a6e-8d07-641d5d742b4b","connectionId":8,"connectionCount":3}}
+{"t":{"$date":"2024-07-31T16:11:44.365+00:00"},"s":"I",  "c":"NETWORK",  "id":22944,   "ctx":"conn6","msg":"Connection ended","attr":{"remote":"127.0.0.1:42464","uuid":"848d583f-9ca6-4b7a-a288-31101cfe3f3a","connectionId":6,"connectionCount":2}}
+{"t":{"$date":"2024-07-31T16:11:44.365+00:00"},"s":"I",  "c":"NETWORK",  "id":22944,   "ctx":"conn5","msg":"Connection ended","attr":{"remote":"127.0.0.1:42454","uuid":"7016f115-1f92-4233-86db-6f2590d63450","connectionId":5,"connectionCount":1}}
+{"t":{"$date":"2024-07-31T16:11:44.365+00:00"},"s":"I",  "c":"NETWORK",  "id":22944,   "ctx":"conn7","msg":"Connection ended","attr":{"remote":"127.0.0.1:42466","uuid":"9aa0c2af-d600-4be6-bef6-48d03bc31985","connectionId":7,"connectionCount":0}}
+#+end_example
 
 - What did this do? ::
-  This step 
+  This step used the ~mongosh~ shell to execute a simple query against
+  the ~mongo~ service, to check that it has been initialized properly.
 
 ** Step 13:  Add the ~mongo_data_connector~ service.
 
@@ -278,7 +297,9 @@ EOF
 #+end_src
 
 - What did this do? ::
-  This step 
+  This step added a MongoDB connector service to the Docker Compose
+  file.  Hasura uses an independent connector agent for certain
+  databases, such as MongoDB.
 
 ** Step 14:  Add the ~redis~ service.
 
@@ -299,7 +320,10 @@ EOF
 #+end_src
 
 - What did this do? ::
-  This step 
+  This step added a Redis service to the Docker Compose file.  Hasura
+  EE uses Redis in two ways.  First, Redis is used for caching.
+  Second, Redis is used to store counters and other data that are used
+  by Hasura security features like rate-limiting.
 
 ** Step 15:  Add Hasura.
 
@@ -356,7 +380,7 @@ EOF
 #+end_src
 
 - What did this do? ::
-  This step 
+  This step added a service to the Docker Compose file for ~hasura~.  
 
 ** Step 16:  Set environment variables.
 
@@ -369,7 +393,16 @@ should not be hard-coded into the Docker Compose file
 #+end_src
 
 - What did this do? ::
-  This step 
+  This step set the two environment variables that are actually
+  necessary.
+
+  - ~HASURA_GRAPHQL_EE_LICENSE_KEY~ :: Because this tutorial uses
+    Enterprise features like Redis caching and the MongoDB connector
+    agent, we need to use the Hasura EE version with a valid license
+    key.
+  - ~HGPORT~ :: Because we need to use Hasura Console in Part B of
+    this tutorial, we need to access both it and the ~graphql-engine~
+    instance within the container.
 
 ** Step 17:  Start the ~mongo_data_connector~, ~redis~ and ~hasura~ services.
 
@@ -392,6 +425,8 @@ Open a browser to the Hasura Console.
 #+end_src
 
 - What did this do? ::
-  This step 
+  This step just launched a web browser to the running instance of
+  graphql-engine, which will cause the Hasura Console interface to
+  appear. 
 
 * Part B:  In Hasura Console
