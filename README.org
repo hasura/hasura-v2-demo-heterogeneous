@@ -429,35 +429,12 @@ Open a browser to the Hasura Console.
 
 * Part B:  In Hasura Console
 
-** Step 1:  Add the postgres database.
+** Step 1:  Add the postgres database and track its tables.
 
-Use Hasura Console as illustrated here to add the ~postgres~ database.
+Use Hasura Console as illustrated here to add the ~postgres~ database
+and track its tables. 
 
 The database url is: ~postgres://postgres:postgres@postgres/chinook~.
-
-[[https://github.com/user-attachments/assets/77424ec0-e1ed-4241-92e8-7ed3ea5ba261][2024-07-31_10-53-36.webm]]
-
-- What did this do? ::
-  This step used Hasura Console to edit the Hasura metadata in order
-  to add the ~postgres~ database (itself a Docker Compose service) as
-  a data source.
-
-** Step 2:  Add the mongo database.
-
-Use Hasura Console as illustrated here to add the ~mongo~ daatabase.
-
-The database url is:  ~mongodb://mongo:mongo@mongo:27017~
-
-The database is:  ~admin~
-
-[[https://github.com/user-attachments/assets/9b2c7c46-d7e3-41ef-aa81-c39f77feaabc][2024-07-31_11-23-07.webm]]
-
-- What did this do? ::
-  This step used Hasura Console to edit the Hasura metadata in order to
-  add the ~mongo~ database (also a Docker Compose service) as a data
-  source. 
-
-** Step 3:  Track the postgres tables.
 
 Use Hasura Console as illustrated here to track /some/ of the
 ~postgres~ tables:
@@ -479,13 +456,21 @@ Do not track these tables:
 The reason not to track these tables in the ~postgres~ database is
 that these data will instead be brought in from the ~mongo~ database.
 
-[[https://github.com/user-attachments/assets/037e9b98-f69c-4124-bc99-89a6ae6527a5][2024-07-31_11-36-06.webm]]
+[[https://github.com/user-attachments/assets/77424ec0-e1ed-4241-92e8-7ed3ea5ba261][2024-07-31_10-53-36.webm]]
 
 - What did this do? ::
   This step used Hasura Console to edit the Hasura metadata in order
-  to "track" these tables, which means to add them to the GraphQL API. 
+  to add the ~postgres~ database (itself a Docker Compose service) as
+  a data source.  It also "tracked" these tables, which means to add
+  them to the GraphQL API.
 
-** Step 4:  Track the mongo collections.
+** Step 2:  Add the mongo database and track the mongo collections
+
+Use Hasura Console as illustrated here to add the ~mongo~ daatabase.
+
+The database url is:  ~mongodb://mongo:mongo@mongo:27017~
+
+The database is:  ~admin~
 
 Use Hasura Console as illustrated here to track the ~mongo~
 collections.
@@ -503,10 +488,50 @@ docker exec scratch-mongo-1 mongosh --quiet -u mongo -p mongo --eval "EJSON.stri
 docker exec scratch-mongo-1 mongosh --quiet -u mongo -p mongo --eval "EJSON.stringify(db.postgres.Track.findOne())" admin
 #+end_src
 
-[[https://github.com/user-attachments/assets/c514385b-5641-41d7-aa1f-080688657943][2024-07-31_11-45-06.webm]]
+[[https://github.com/user-attachments/assets/9b2c7c46-d7e3-41ef-aa81-c39f77feaabc][2024-07-31_11-23-07.webm]]
+
+- What did this do? ::
+  This step used Hasura Console to edit the Hasura metadata in order to
+  add the ~mongo~ database (also a Docker Compose service) as a data
+  source. As discussed above, it also sampled the mongo collections in
+  order to track its collections with suitable Logical Models.
 
 ** Step 5:  Try a sample query.
 
+Use Hasura Console as illustrated here to try a sample GraphQL query
+that traverses both data source, ~postgres~ and ~mongo~, via the
+relationships that were established earlier.
+
+#+begin_src graphql
+query MyQuery {
+  Artist(limit: 1) {
+    Name
+    albums(limit: 1) {
+      Title
+      tracks(limit: 1) {
+        Name
+        genre {
+          Name
+        }
+        mediatype {
+          Name
+        }
+        playlisttracks {
+          PlaylistId
+          Playlist {
+            Name
+          }
+        }
+      }
+    }
+  }
+}
+#+end_src
+
 [[https://github.com/user-attachments/assets/fcb542bf-1338-49a0-b6c2-41f7674d458b][2024-07-31_11-58-04.webm]]
+
+- What did this do? ::
+  This used the API tab in Hasura Console, itself a GraphQL client, to
+  access the GraphQL endpoint, and issue a sample query.
 
 
