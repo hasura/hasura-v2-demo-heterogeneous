@@ -1,47 +1,45 @@
-- [What](#org555ba5d)
-- [Why](#orgb48017f)
-- [How](#org8248bc2)
-- [Part A:  At the Command Line](#org17f5552)
-  - [Step 1:  Create a new directory.](#orgfb263b7)
-  - [Step 2:  Create a PostgreSQL initialization directory.](#org5ca0ed0)
-  - [Step 3:  Download the PostgresSQL initialization files.](#org0265c14)
-  - [Step 4:  Scaffold the Docker Compose file.](#org1f70ee2)
-  - [Step 5:  Add the `postgres` service.](#orgde03119)
-  - [Step 7:  Test the PostgreSQL service.](#org7803f69)
-  - [Step 8:  Create a MongoDB initialization directory.](#org53a3d08)
-  - [Step 9:  Download the MongoDB initialization files.](#orgac36b2e)
-  - [Step 10:  Add the `mongo` service.](#org6838478)
-  - [Step 12:  Test the MongoDB service.](#org8da6ea1)
-  - [Step 13:  Add the `mongo_data_connector` service.](#orge5be715)
-  - [Step 14:  Add the `redis` service.](#orgbdb0c2a)
-  - [Step 15:  Add Hasura.](#org5e87233)
-  - [Step 16:  Set environment variables.](#org32375c5)
-  - [Step 17:  Start the `mongo_data_connector`, `redis` and `hasura` services.](#org355d353)
-  - [Step 18:  Open the Hasura Console and log in.](#orge8af04f)
-- [Part B:  In Hasura Console](#org9ebf882)
-  - [Step 1:  Add the postgres database.](#org85a4249)
-  - [Step 2:  Add the mongo database.](#orgaed6e35)
-  - [Step 3:  Track the postgres tables.](#org836a578)
-  - [Step 4:  Track the mongo collections.](#org3dba091)
-  - [Step 5:  Try a sample query.](#orgef6ef07)
+- [What](#org89381d8)
+- [Why](#orgac75613)
+- [How](#org10210aa)
+- [Part A:  At the Command Line](#orga2811b8)
+  - [Step 1:  Create a new directory.](#orgca655a4)
+  - [Step 2:  Create a PostgreSQL initialization directory.](#org95a4b41)
+  - [Step 3:  Download the PostgresSQL initialization files.](#org39d79d5)
+  - [Step 4:  Scaffold the Docker Compose file.](#org9b9e97c)
+  - [Step 5:  Add the `postgres` service.](#org06053df)
+  - [Step 7:  Test the PostgreSQL service.](#orga004e72)
+  - [Step 8:  Create a MongoDB initialization directory.](#org7d7b152)
+  - [Step 9:  Download the MongoDB initialization files.](#org7eb06c6)
+  - [Step 10:  Add the `mongo` service.](#orgdcf5d39)
+  - [Step 12:  Test the MongoDB service.](#orgced36d8)
+  - [Step 13:  Add the `mongo_data_connector` service.](#org0416cc7)
+  - [Step 14:  Add the `redis` service.](#org78485fe)
+  - [Step 15:  Add Hasura.](#orge23a80e)
+  - [Step 16:  Set environment variables.](#orgc0889e6)
+  - [Step 17:  Start the `mongo_data_connector`, `redis` and `hasura` services.](#orgf3e351f)
+  - [Step 18:  Open the Hasura Console and log in.](#org68142de)
+- [Part B:  In Hasura Console](#orgbf68976)
+  - [Step 1:  Add the postgres database and track its tables.](#org83ef7b4)
+  - [Step 2:  Add the mongo database and track the mongo collections](#org6eca571)
+  - [Step 5:  Try a sample query.](#orge59b986)
 
 
 
-<a id="org555ba5d"></a>
+<a id="org89381d8"></a>
 
 # What
 
 This project comprises instructions for setting up heterogeneous data sources with Hasura v2.
 
 
-<a id="orgb48017f"></a>
+<a id="orgac75613"></a>
 
 # Why
 
 There can never be too many tutorials, walk-throughs, and lighted pathways for setting up Hasura. This is yet another one.
 
 
-<a id="org8248bc2"></a>
+<a id="org10210aa"></a>
 
 # How
 
@@ -52,12 +50,12 @@ Part A offers a sequence of steps to be performed at the Command Line and option
 Part B offers a sequence of steps to be performed in Hasura Console once all the services have been launched.
 
 
-<a id="org17f5552"></a>
+<a id="orga2811b8"></a>
 
 # Part A:  At the Command Line
 
 
-<a id="orgfb263b7"></a>
+<a id="orgca655a4"></a>
 
 ## Step 1:  Create a new directory.
 
@@ -72,7 +70,7 @@ cd scratch
 -   **What did this do?:** This step just creates a scratch workspace for the project.
 
 
-<a id="org5ca0ed0"></a>
+<a id="org95a4b41"></a>
 
 ## Step 2:  Create a PostgreSQL initialization directory.
 
@@ -85,7 +83,7 @@ mkdir -p initdb.d-postgres
 -   **What did this do?:** This step creates a directory that will be mounted into the PostgreSQL container as a volume, in a special directory that the container image uses to access initialization files.
 
 
-<a id="org0265c14"></a>
+<a id="org39d79d5"></a>
 
 ## Step 3:  Download the PostgresSQL initialization files.
 
@@ -100,7 +98,7 @@ wget -O initdb.d-postgres/05_chinook_dml.sql https://raw.githubusercontent.com/h
 -   **What did this do?:** This step downloaded PostgreSQL SQL initialization files from this GitHub repository, with DDL and DML for the Chinook sample database.
 
 
-<a id="org1f70ee2"></a>
+<a id="org9b9e97c"></a>
 
 ## Step 4:  Scaffold the Docker Compose file.
 
@@ -123,7 +121,7 @@ EOF
 -   **What did this do?:** This step added the Docker Compose preamble to the `docker-compose.yaml` file to set the version and create the `services` node.
 
 
-<a id="orgde03119"></a>
+<a id="org06053df"></a>
 
 ## Step 5:  Add the `postgres` service.
 
@@ -158,7 +156,7 @@ EOF
 -   **What did this do?:** This step addes the `postgres` service. PostgreSQL is used *both* as a Hasura data source *and* as the Hasura metadata database. In a more realistic setting, typically these will be different databases. In a tutorial, keeping them in one database is simpler. The Hasura metadata database is largel of incidental importance for this tutorial, since its only role is as a channel for synchronizing metadata changes across a horizontally-scaled cluster of Hasura instances. With only one instance, that obviously is irrelevant for this tutorial. Nevertheless, the presence of a metadata database is a *requirement* for Hasura v2 even to start.
 
 
-<a id="org7803f69"></a>
+<a id="orga004e72"></a>
 
 ## Step 7:  Test the PostgreSQL service.
 
@@ -177,7 +175,7 @@ docker exec scratch-postgres-1 psql -U postgres -d chinook -c "select count(*) f
 -   **What did this do?:** This step launched the Docker Compose `postgres` service and ran a test query just to validate that it has been initialized properly.
 
 
-<a id="org53a3d08"></a>
+<a id="org7d7b152"></a>
 
 ## Step 8:  Create a MongoDB initialization directory.
 
@@ -190,7 +188,7 @@ mkdir -p initdb.d-mongo
 -   **What did this do?:** This step creates a directory that will be mounted into the MongoDB container as a volume, in a special directory that the container image uses to access initialization files.
 
 
-<a id="orgac36b2e"></a>
+<a id="org7eb06c6"></a>
 
 ## Step 9:  Download the MongoDB initialization files.
 
@@ -206,7 +204,7 @@ wget -O initdb.d-mongo/postgres.Track.json https://raw.githubusercontent.com/has
 -   **What did this do?:** This step downloaded MongoDB initialization scripts and related data files from this GitHub repository.
 
 
-<a id="org6838478"></a>
+<a id="orgdcf5d39"></a>
 
 ## Step 10:  Add the `mongo` service.
 
@@ -245,7 +243,7 @@ EOF
 -   **What did this do?:** This step added a stanza for the `mongo` service to the Docker Compose file.
 
 
-<a id="org8da6ea1"></a>
+<a id="orgced36d8"></a>
 
 ## Step 12:  Test the MongoDB service.
 
@@ -264,7 +262,7 @@ docker exec scratch-mongo-1 mongosh --quiet -u mongo -p mongo --eval "db.postgre
 -   **What did this do?:** This step used the `mongosh` shell to execute a simple query against the `mongo` service, to check that it has been initialized properly.
 
 
-<a id="orge5be715"></a>
+<a id="org0416cc7"></a>
 
 ## Step 13:  Add the `mongo_data_connector` service.
 
@@ -291,7 +289,7 @@ EOF
 -   **What did this do?:** This step added a MongoDB connector service to the Docker Compose file. Hasura uses an independent connector agent for certain databases, such as MongoDB.
 
 
-<a id="orgbdb0c2a"></a>
+<a id="org78485fe"></a>
 
 ## Step 14:  Add the `redis` service.
 
@@ -314,7 +312,7 @@ EOF
 -   **What did this do?:** This step added a Redis service to the Docker Compose file. Hasura EE uses Redis in two ways. First, Redis is used for caching. Second, Redis is used to store counters and other data that are used by Hasura security features like rate-limiting.
 
 
-<a id="org5e87233"></a>
+<a id="orge23a80e"></a>
 
 ## Step 15:  Add Hasura.
 
@@ -371,7 +369,7 @@ EOF
 -   **What did this do?:** This step added a service to the Docker Compose file for `hasura`.
 
 
-<a id="org32375c5"></a>
+<a id="orgc0889e6"></a>
 
 ## Step 16:  Set environment variables.
 
@@ -387,7 +385,7 @@ export HGPORT=8081		# or your own port
     -   **`HGPORT`:** Because we need to use Hasura Console in Part B of this tutorial, we need to access both it and the `graphql-engine` instance within the container.
 
 
-<a id="org355d353"></a>
+<a id="orgf3e351f"></a>
 
 ## Step 17:  Start the `mongo_data_connector`, `redis` and `hasura` services.
 
@@ -400,7 +398,7 @@ docker compose up -d mongo_data_connector redis hasura
 -   **What did this do?:** This step
 
 
-<a id="orge8af04f"></a>
+<a id="org68142de"></a>
 
 ## Step 18:  Open the Hasura Console and log in.
 
@@ -413,42 +411,18 @@ xdg-open http://localhost:8081	# or your own port
 -   **What did this do?:** This step just launched a web browser to the running instance of graphql-engine, which will cause the Hasura Console interface to appear.
 
 
-<a id="org9ebf882"></a>
+<a id="orgbf68976"></a>
 
 # Part B:  In Hasura Console
 
 
-<a id="org85a4249"></a>
+<a id="org83ef7b4"></a>
 
-## Step 1:  Add the postgres database.
+## Step 1:  Add the postgres database and track its tables.
 
-Use Hasura Console as illustrated here to add the `postgres` database.
+Use Hasura Console as illustrated here to add the `postgres` database and track its tables.
 
 The database url is: `postgres://postgres:postgres@postgres/chinook`.
-
-[2024-07-31<sub>10</sub>-53-36.webm](https://github.com/user-attachments/assets/77424ec0-e1ed-4241-92e8-7ed3ea5ba261)
-
--   **What did this do?:** This step used Hasura Console to edit the Hasura metadata in order to add the `postgres` database (itself a Docker Compose service) as a data source.
-
-
-<a id="orgaed6e35"></a>
-
-## Step 2:  Add the mongo database.
-
-Use Hasura Console as illustrated here to add the `mongo` daatabase.
-
-The database url is: `mongodb://mongo:mongo@mongo:27017`
-
-The database is: `admin`
-
-[2024-07-31<sub>11</sub>-23-07.webm](https://github.com/user-attachments/assets/9b2c7c46-d7e3-41ef-aa81-c39f77feaabc)
-
--   **What did this do?:** This step used Hasura Console to edit the Hasura metadata in order to add the `mongo` database (also a Docker Compose service) as a data source.
-
-
-<a id="org836a578"></a>
-
-## Step 3:  Track the postgres tables.
 
 Use Hasura Console as illustrated here to track *some* of the `postgres` tables:
 
@@ -468,14 +442,20 @@ Do not track these tables:
 
 The reason not to track these tables in the `postgres` database is that these data will instead be brought in from the `mongo` database.
 
-[2024-07-31<sub>11</sub>-36-06.webm](https://github.com/user-attachments/assets/037e9b98-f69c-4124-bc99-89a6ae6527a5)
+[2024-07-31<sub>10</sub>-53-36.webm](https://github.com/user-attachments/assets/77424ec0-e1ed-4241-92e8-7ed3ea5ba261)
 
--   **What did this do?:** This step used Hasura Console to edit the Hasura metadata in order to "track" these tables, which means to add them to the GraphQL API.
+-   **What did this do?:** This step used Hasura Console to edit the Hasura metadata in order to add the `postgres` database (itself a Docker Compose service) as a data source. It also "tracked" these tables, which means to add them to the GraphQL API.
 
 
-<a id="org3dba091"></a>
+<a id="org6eca571"></a>
 
-## Step 4:  Track the mongo collections.
+## Step 2:  Add the mongo database and track the mongo collections
+
+Use Hasura Console as illustrated here to add the `mongo` daatabase.
+
+The database url is: `mongodb://mongo:mongo@mongo:27017`
+
+The database is: `admin`
 
 Use Hasura Console as illustrated here to track the `mongo` collections.
 
@@ -487,11 +467,43 @@ docker exec scratch-mongo-1 mongosh --quiet -u mongo -p mongo --eval "EJSON.stri
 docker exec scratch-mongo-1 mongosh --quiet -u mongo -p mongo --eval "EJSON.stringify(db.postgres.Track.findOne())" admin
 ```
 
-[2024-07-31<sub>11</sub>-45-06.webm](https://github.com/user-attachments/assets/c514385b-5641-41d7-aa1f-080688657943)
+[2024-07-31<sub>11</sub>-23-07.webm](https://github.com/user-attachments/assets/9b2c7c46-d7e3-41ef-aa81-c39f77feaabc)
+
+-   **What did this do?:** This step used Hasura Console to edit the Hasura metadata in order to add the `mongo` database (also a Docker Compose service) as a data source. As discussed above, it also sampled the mongo collections in order to track its collections with suitable Logical Models.
 
 
-<a id="orgef6ef07"></a>
+<a id="orge59b986"></a>
 
 ## Step 5:  Try a sample query.
 
+Use Hasura Console as illustrated here to try a sample GraphQL query that traverses both data source, `postgres` and `mongo`, via the relationships that were established earlier.
+
+```graphql
+query MyQuery {
+  Artist(limit: 1) {
+    Name
+    albums(limit: 1) {
+      Title
+      tracks(limit: 1) {
+        Name
+        genre {
+          Name
+        }
+        mediatype {
+          Name
+        }
+        playlisttracks {
+          PlaylistId
+          Playlist {
+            Name
+          }
+        }
+      }
+    }
+  }
+}
+```
+
 [2024-07-31<sub>11</sub>-58-04.webm](https://github.com/user-attachments/assets/fcb542bf-1338-49a0-b6c2-41f7674d458b)
+
+-   **What did this do?:** This used the API tab in Hasura Console, itself a GraphQL client, to access the GraphQL endpoint, and issue a sample query.
