@@ -488,6 +488,11 @@ docker exec scratch-mongo-1 mongosh --quiet -u mongo -p mongo --eval "EJSON.stri
 docker exec scratch-mongo-1 mongosh --quiet -u mongo -p mongo --eval "EJSON.stringify(db.postgres.Track.findOne())" admin
 #+end_src
 
+#+RESULTS:
+: {"_id":{"$oid":"6637f6ce7cda30b626bb1e62"},"ArtistId":1,"Name":"AC/DC"}
+: {"_id":{"$oid":"6637f6cc7cda30b626bb1d07"},"AlbumId":1,"Title":"For Those About To Rock We Salute You","ArtistId":1}
+: {"_id":{"$oid":"6637f6ce7cda30b626bb1f75"},"TrackId":1,"Name":"For Those About To Rock (We Salute You)","AlbumId":1,"MediaTypeId":1,"GenreId":1,"Composer":"Angus Young, Malcolm Young, Brian Johnson","Milliseconds":343719,"Bytes":11170334,"UnitPrice":0.99}
+
 [[https://github.com/user-attachments/assets/9b2c7c46-d7e3-41ef-aa81-c39f77feaabc][2024-07-31_11-23-07.webm]]
 
 - What did this do? ::
