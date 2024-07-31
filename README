@@ -429,7 +429,7 @@ Open a browser to the Hasura Console.
 
 * Part B:  In Hasura Console
 
-[[file:2024-07-31_10-53-36.webm]]
+[[file:2024-07-31_10-53-36.mp4]]
 
 #+begin_src bash :eval never-export :exports both :session scratch :results output
 docker exec scratch-mongo-1 mongosh --quiet -u mongo -p mongo --eval "EJSON.stringify(db.postgres.Artist.findOne())" admin
