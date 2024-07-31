@@ -425,4 +425,5 @@ docker exec scratch-mongo-1 mongosh --quiet -u mongo -p mongo --eval "EJSON.stri
 
 [2024-07-31_11-45-06.webm](https://github.com/user-attachments/assets/c514385b-5641-41d7-aa1f-080688657943)
 
+[2024-07-31_11-58-04.webm](https://github.com/user-attachments/assets/fcb542bf-1338-49a0-b6c2-41f7674d458b)
 
