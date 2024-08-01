@@ -152,13 +152,13 @@ Run a query against the database to verify that it has been
 initialized.
 
 #+begin_src bash :eval never-export :exports code :session scratch :results output
-  docker exec scratch-postgres-1 psql -U postgres -d chinook -c "select count(*) from \"Track\""
+  docker exec scratch-postgres-1 psql -U postgres -d chinook -c "select count(*) from \"Artist\""
 #+end_src
 
 #+RESULTS:
 : count 
 : -------
-:   3503
+:    276
 : (1 row)
 
 - What did this do? ::
@@ -244,15 +244,14 @@ Run a query against the database to verify that it has been
 initialized.
 
 #+begin_src bash :eval never-export :exports code :session scratch :results output
-  docker exec scratch-mongo-1 mongosh --quiet -u mongo -p mongo --eval "db.postgres.Album.findOne()" admin
+  docker exec scratch-mongo-1 mongosh --quiet -u mongo -p mongo --eval "db.postgres.Artist.findOne()" admin
 #+end_src
 
 #+RESULTS:
 : {
-:   _id: ObjectId('6637f6cc7cda30b626bb1d07'),
-:   AlbumId: 1,
-:   Title: 'For Those About To Rock We Salute You',
-:   ArtistId: 1
+:   _id: ObjectId('6637f6ce7cda30b626bb1e62'),
+:   ArtistId: 1,
+:   Name: 'AC/DC'
 : }
 
 - What did this do? ::
