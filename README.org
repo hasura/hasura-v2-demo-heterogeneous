@@ -62,8 +62,8 @@ Download PostgreSQL initialization scripts into its initialization
 directory.
 
 - [[https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/from-scratch/initdb.d-postgres/03_chinook_database.sql][~02_chinook_database.sql~]] :: create the Chinook database
-- [[https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/from-scratch/initdb.d-postgres/03_chinook_database.sql][04_chinook_ddl.sql]] :: Chinook DDL (i.e. the tables)
-- [[https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/from-scratch/initdb.d-postgres/05_chinook_dml.sql][05_chinook_dml.sql]] :: Chinook DML (i.e. the data)
+- [[https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/from-scratch/initdb.d-postgres/03_chinook_database.sql][~04_chinook_ddl.sql~]] :: Chinook DDL (i.e. the tables)
+- [[https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/from-scratch/initdb.d-postgres/05_chinook_dml.sql][~05_chinook_dml.sql~]] :: Chinook DML (i.e. the data)
 
 #+begin_src bash :eval never-export :exports code :session scratch :results none
   wget -O initdb.d-postgres/03_chinook_database.sql https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/from-scratch/initdb.d-postgres/03_chinook_database.sql
@@ -196,10 +196,10 @@ initialize the database.
 Download Mongo DB initialization files into its initialization
 directory.
 
-- [[https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-mongo/01_import_data.sh][01_import_data.sh]] :: main script
-- [[https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-mongo/postgres.Album.json][postgres.Album.json]] :: Album data
-- [[https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-mongo/postgres.Artist.json][postgres.Artist.json]] :: Artist data
-- [[https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-mongo/postgres.Track.json][postgres.Track.json]] :: Track data
+- [[https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-mongo/01_import_data.sh][~01_import_data.sh~]] :: main script
+- [[https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-mongo/postgres.Album.json][~postgres.Album.json~]] :: Album data
+- [[https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-mongo/postgres.Artist.json][~postgres.Artist.json~]] :: Artist data
+- [[https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-mongo/postgres.Track.json][~postgres.Track.json~]] :: Track data
 
 #+begin_src bash :eval never-export :exports code :session scratch :results none
   wget -O initdb.d-mongo/01_import_data.sh https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-mongo/01_import_data.sh
