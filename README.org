@@ -61,14 +61,14 @@ initialize the database.
 Download PostgreSQL initialization scripts into its initialization
 directory.
 
-- [[https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-postgres/03_chinook_database.sql][02_chinook_database.sql]] :: create the Chinook database
-- [[https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-postgres/04_chinook_ddl.sql][04_chinook_ddl.sql]] :: Chinook DDL (i.e. the tables)
-- [[https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-postgres/05_chinook_dml.sql][05_chinook_dml.sql]] :: Chinook DML (i.e. the data)
+- [[https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/from-scratch/initdb.d-postgres/03_chinook_database.sql][02_chinook_database.sql]] :: create the Chinook database
+- [[https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/from-scratch/initdb.d-postgres/03_chinook_database.sql][04_chinook_ddl.sql]] :: Chinook DDL (i.e. the tables)
+- [[https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/from-scratch/initdb.d-postgres/05_chinook_dml.sql][05_chinook_dml.sql]] :: Chinook DML (i.e. the data)
 
 #+begin_src bash :eval never-export :exports code :session scratch :results none
-  wget -O initdb.d-postgres/03_chinook_database.sql https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-postgres/03_chinook_database.sql
-  wget -O initdb.d-postgres/04_chinook_ddl.sql https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-postgres/04_chinook_ddl.sql
-  wget -O initdb.d-postgres/05_chinook_dml.sql https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/main/initdb.d-postgres/05_chinook_dml.sql
+  wget -O https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/from-scratch/initdb.d-postgres/03_chinook_database.sql
+  wget -O https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/from-scratch/initdb.d-postgres/04_chinook_ddl.sql
+  wget -O https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/from-scratch/initdb.d-postgres/05_chinook_dml.sql
 #+end_src
 
 - What did this do? ::
@@ -153,6 +153,8 @@ initialized.
 
 #+begin_src bash :eval never-export :exports code :session scratch :results output
   docker exec scratch-postgres-1 psql -U postgres -d chinook -c "select count(*) from \"Artist\""
+  docker exec scratch-postgres-1 psql -U postgres -d metadata_1 -c "select 1"
+  docker exec scratch-postgres-1 psql -U postgres -d metadata_2 -c "select 1"
 #+end_src
 
 #+RESULTS:
@@ -160,6 +162,8 @@ initialized.
 : -------
 :    276
 : (1 row)
+: psql: error: connection to server on socket "/var/run/postgresql/.s.PGSQL.5432" failed: FATAL:  database "metadata_1" does not exist
+: psql: error: connection to server on socket "/var/run/postgresql/.s.PGSQL.5432" failed: FATAL:  database "metadata_2" does not exist
 
 - What did this do? ::
   This step launched the Docker Compose ~postgres~ service and ran a
