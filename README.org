@@ -347,25 +347,6 @@ Use a code editor to add a stanza for the ~hasura~ service.
       HASURA_GRAPHQL_METADATA_DEFAULTS: '{"backend_configs":{"dataconnector":{"Mongo":{"uri":"http://mongo_data_connector:3000"}}}}' # Tell Hasura about the connector agent.
       HASURA_GRAPHQL_RATE_LIMIT_REDIS_URL: redis://redis:6379 # Set the Redis URL for rate-limiting.
       HASURA_GRAPHQL_REDIS_URL: redis://redis:6379            # Use the same Redis URL for caching.
-  hasura2:                       # Start Hasura.
-    image: hasura/graphql-engine:v2.40.0
-    depends_on:                 # Wait until postgres starts up first.
-      postgres:
-        condition: service_healthy
-    ports:                      # Expose it on a port taken from an environment variable
-      - ${HGPORT2}:8080
-    healthcheck:                # Use a sensible healthcheck.
-      test: curl -s http://localhost:8080/healthz
-      start_period: 60s
-    environment:                # Configure Hasura.
-      HASURA_GRAPHQL_ADMIN_SECRET: hasura # Hasura EE requires an admin secret.
-      HASURA_GRAPHQL_DEV_MODE: true       # We require dev mode.
-      HASURA_GRAPHQL_EE_LICENSE_KEY: ${HASURA_GRAPHQL_EE_LICENSE_KEY} # Hasura EE requires a license key.
-      HASURA_GRAPHQL_ENABLE_CONSOLE: true # We require Hasura Console.
-      HASURA_GRAPHQL_MAX_CACHE_SIZE: 200  # Set Redis cache size.
-      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgres@postgres/metadata_2 # Hasura requires a PostgreSQL DB for metadata.
-      HASURA_GRAPHQL_RATE_LIMIT_REDIS_URL: redis://redis:6379 # Set the Redis URL for rate-limiting.
-      HASURA_GRAPHQL_REDIS_URL: redis://redis:6379            # Use the same Redis URL for caching.
 #+end_src
 
 Alternatively, add to the file from the command line.
@@ -392,25 +373,6 @@ cat <<'EOF' >> docker-compose.yaml
       HASURA_GRAPHQL_METADATA_DEFAULTS: '{"backend_configs":{"dataconnector":{"Mongo":{"uri":"http://mongo_data_connector:3000"}}}}' # Tell Hasura about the connector agent.
       HASURA_GRAPHQL_RATE_LIMIT_REDIS_URL: redis://redis:6379 # Set the Redis URL for rate-limiting.
       HASURA_GRAPHQL_REDIS_URL: redis://redis:6379            # Use the same Redis URL for caching.
-  hasura2:                       # Start Hasura.
-    image: hasura/graphql-engine:v2.40.0
-    depends_on:                 # Wait until postgres starts up first.
-      postgres:
-        condition: service_healthy
-    ports:                      # Expose it on a port taken from an environment variable
-      - ${HGPORT2}:8080
-    healthcheck:                # Use a sensible healthcheck.
-      test: curl -s http://localhost:8080/healthz
-      start_period: 60s
-    environment:                # Configure Hasura.
-      HASURA_GRAPHQL_ADMIN_SECRET: hasura # Hasura EE requires an admin secret.
-      HASURA_GRAPHQL_DEV_MODE: true       # We require dev mode.
-      HASURA_GRAPHQL_EE_LICENSE_KEY: ${HASURA_GRAPHQL_EE_LICENSE_KEY} # Hasura EE requires a license key.
-      HASURA_GRAPHQL_ENABLE_CONSOLE: true # We require Hasura Console.
-      HASURA_GRAPHQL_MAX_CACHE_SIZE: 200  # Set Redis cache size.
-      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgres@postgres/metadata_2 # Hasura requires a PostgreSQL DB for metadata.
-      HASURA_GRAPHQL_RATE_LIMIT_REDIS_URL: redis://redis:6379 # Set the Redis URL for rate-limiting.
-      HASURA_GRAPHQL_REDIS_URL: redis://redis:6379            # Use the same Redis URL for caching.
 EOF
 #+end_src
 
@@ -425,7 +387,6 @@ should not be hard-coded into the Docker Compose file
 #+begin_src bash :eval never-export :exports code :session scratch :results none
   export HASURA_GRAPHQL_EE_LICENSE_KEY=<your EE license key>
   export HGPORT1=8081		# or your own port
-  export HGPORT2=8082		# or your own port
 #+end_src
 
 - What did this do? ::
@@ -446,7 +407,7 @@ Use Docker Compose to start the ~mongo_data_connector~, ~redis~ and
 ~hasura~ services.
 
 #+begin_src bash :eval never-export :exports code :session scratch :results none
-  docker compose up -d mongo_data_connector redis hasura1 hasura2
+  docker compose up -d mongo_data_connector redis hasura1
 #+end_src
 
 - What did this do? ::
