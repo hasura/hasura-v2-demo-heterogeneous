@@ -61,7 +61,7 @@ initialize the database.
 Download PostgreSQL initialization scripts into its initialization
 directory.
 
-- [[https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/from-scratch/initdb.d-postgres/03_chinook_database.sql][02_chinook_database.sql]] :: create the Chinook database
+- [[https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/from-scratch/initdb.d-postgres/03_chinook_database.sql][~02_chinook_database.sql~]] :: create the Chinook database
 - [[https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/from-scratch/initdb.d-postgres/03_chinook_database.sql][04_chinook_ddl.sql]] :: Chinook DDL (i.e. the tables)
 - [[https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/from-scratch/initdb.d-postgres/05_chinook_dml.sql][05_chinook_dml.sql]] :: Chinook DML (i.e. the data)
 
