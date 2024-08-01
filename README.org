@@ -66,9 +66,9 @@ directory.
 - [[https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/from-scratch/initdb.d-postgres/05_chinook_dml.sql][05_chinook_dml.sql]] :: Chinook DML (i.e. the data)
 
 #+begin_src bash :eval never-export :exports code :session scratch :results none
-  wget -O https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/from-scratch/initdb.d-postgres/03_chinook_database.sql
-  wget -O https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/from-scratch/initdb.d-postgres/04_chinook_ddl.sql
-  wget -O https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/from-scratch/initdb.d-postgres/05_chinook_dml.sql
+  wget -O initdb.d-postgres/03_chinook_database.sql https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/from-scratch/initdb.d-postgres/03_chinook_database.sql
+  wget -O initdb.d-postgres/04_chinook_ddl.sql https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/from-scratch/initdb.d-postgres/04_chinook_ddl.sql
+  wget -O initdb.d-postgres/05_chinook_dml.sql https://raw.githubusercontent.com/hasura/hasura-v2-demo-heterogeneous/from-scratch/initdb.d-postgres/05_chinook_dml.sql
 #+end_src
 
 - What did this do? ::
