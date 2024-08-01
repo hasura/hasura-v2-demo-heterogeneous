@@ -158,12 +158,20 @@ initialized.
 #+end_src
 
 #+RESULTS:
-: count 
-: -------
-:    276
-: (1 row)
-: psql: error: connection to server on socket "/var/run/postgresql/.s.PGSQL.5432" failed: FATAL:  database "metadata_1" does not exist
-: psql: error: connection to server on socket "/var/run/postgresql/.s.PGSQL.5432" failed: FATAL:  database "metadata_2" does not exist
+#+begin_example
+count 
+-------
+   276
+(1 row)
+?column? 
+----------
+        1
+(1 row)
+?column? 
+----------
+        1
+(1 row)
+#+end_example
 
 - What did this do? ::
   This step launched the Docker Compose ~postgres~ service and ran a
@@ -450,13 +458,11 @@ Open a browser to the Hasura Console.
 
 #+begin_src bash :eval never-export :exports code :session scratch :results none
   xdg-open http://localhost:8081 &	# or your own port
-  xdg-open http://localhost:8082 &	# or your own port
 #+end_src
 
 - What did this do? ::
   This step just launched a web browser to the running instance of
-  graphql-engine, which will cause the Hasura Console interface to
-  appear.
+  hasura1, which will cause the Hasura Console interface to appear.
 
 * Part B:  In Hasura Console
 
