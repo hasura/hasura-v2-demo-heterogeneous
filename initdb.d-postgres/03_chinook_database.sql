@@ -2,4 +2,4 @@
 
 create database chinook;
 
-create database metadata;
+create database metadata_1;
