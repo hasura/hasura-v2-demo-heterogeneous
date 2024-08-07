@@ -571,7 +571,9 @@ Use Docker Compose to start the ~mongo_data_connector~, ~redis~,
   ~hasura1~, ~hasura2~, and ~hasura3~ which act as two sub-graphs for
   PostgreSQL and MongoDb and a super-graph gateway.
 
-** Step 19:  Open the Hasura Console and log in.
+* Part B:  In Hasura Console
+
+** Step 0:  Open the Hasura Console and log in.
 
 Open a browser to the Hasura Console instances for all three Hasura
 instances.
@@ -586,12 +588,11 @@ instances.
   This step just launched a web browser to the running instance of
   hasura1, which will cause the Hasura Console interface to appear.
 
-* Part B:  In Hasura Console
-
 ** Step 1:  Add the postgres database and track its tables and relationships.
 
-Use Hasura Console as illustrated here to add the ~postgres~ database
-and track its tables and relationships.
+Use Hasura Console at [[http://localhost:8081]] (or your own port) as
+illustrated here to add the ~postgres~ database and track its tables
+and relationships.
 
 The database url is: ~postgres://postgres:postgres@postgres/chinook~.
 
@@ -633,7 +634,8 @@ sufficient just to choose the "Track All" option.
 
 ** Step 2:  Add the mongo database and track the mongo collections
 
-Use Hasura Console as illustrated here to add the ~mongo~ database.
+Use Hasura Console at [[http://localhost:8082]] (or your own port) as
+illustrated here to add the ~mongo~ database.
 
 The database url is:  ~mongodb://mongo:mongo@mongo:27017~
 
@@ -691,19 +693,40 @@ docker exec scratch-mongo-1 mongosh --quiet -u mongo -p mongo --eval "EJSON.stri
   source. As discussed above, it also sampled the mongo collections in
   order to track its collections with suitable Logical Models.
 
+** Step 3:  Add the Remote Schemas.
 
-** Step 3:  Add relationships.
+Use Hasura Console at [[http://localhost:8083]] (or your own port) as
+illustrated here to add Remote Schemas to the other two Hasura
+instances.
 
-Use Hasura Console as illustrated here to add relationships between
-MongoDB collections and PostgreSQL tables.
+The /internal/ Docker endpoint for ~hasura1~ (PostgreSQL) is:
+~http://hasura1:8080/v1/graphql~.
+
+The /internal/ Docker endpoint for ~hasura2~ (MongoDB) is:
+~http://hasura2:8080/v1/graphql~.
+
+Step 3
+
+- What did this do? ::
+  This step used Hasura Console to edit the Hasura metadata in order
+  to add the two other Hasura sub-graph instances ~hasura1~
+  (PostgreSQL) and ~hasura2~ (MongoDB) as Remote Schemas.  This
+  establishes this third Hasura instance as a super-graph gateway.
+
+** Step 3:  Add Remote Relationships.
+
+Use Hasura Console at http://localhost:8003 (or your own port) as
+illustrated here to add Remote Relationships between ~hasura1~
+(PostgreSQL) and ~hasura2~ (MongoDB) collections.
 
 [[https://github.com/user-attachments/assets/c514385b-5641-41d7-aa1f-080688657943][Step 3]]
 
 - What did this do? ::
   This step used Hasura Console to edit the Hasura metadata in order
-  to establish relationships between tracked MongoDB collections and
-  tracked PostgreSQL tables.  This is the crucial step that links data
-  between different data sources.
+  to establish Remote Relationships between tracked MongoDB
+  collections and tracked PostgreSQL tables in the two sub-graph
+  Hasura instances.  This is the crucial step that links data between
+  different data sources.
 
 ** Step 4:  Try a sample query.
 
