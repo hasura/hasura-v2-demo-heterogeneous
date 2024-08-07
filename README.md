@@ -678,7 +678,7 @@ The *internal* Docker endpoint for `hasura1` (PostgreSQL) is: `http://hasura1:80
 
 The *internal* Docker endpoint for `hasura2` (MongoDB) is: `http://hasura2:8080/v1/graphql`.
 
-Step 3
+[2024-08-07_11-19-23.webm](https://github.com/user-attachments/assets/4d2e17b3-32d1-46bb-9866-e014f2d027f0)
 
 -   **What did this do?:** This step used Hasura Console to edit the Hasura metadata in order to add the two other Hasura sub-graph instances `hasura1` (PostgreSQL) and `hasura2` (MongoDB) as Remote Schemas. This establishes this third Hasura instance as a super-graph gateway.
 
