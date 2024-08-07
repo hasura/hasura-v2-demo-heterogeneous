@@ -1,49 +1,51 @@
 version: '3.1'
 services:
-  redis:
-    image: redis:latest
-    restart: always
-    ports:
-      - "6379:6379"
   postgres:
     image: postgres:16          # Use a modern version of PostgreSQL.
-    ports:
-      - ${PGPORT}:5432          # Expose it on a port taken from an environment variable.
     environment:                # Set its superuser username and password.
       POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
     volumes:                    # Initialize from the contents of the initialization directory.
       - ./initdb.d-postgres:/docker-entrypoint-initdb.d:ro
     healthcheck:                # Use a sensible healthcheck.
       test: psql -U postgres -d chinook -c "select count(*) from \"Artist\""
+  metadata:
+    image: postgres:16          # Use a modern version of PostgreSQL.
+    environment:                # Set its superuser username and password.
+      POSTGRES_PASSWORD: postgres
+    volumes:                    # Initialize from the contents of the initialization directory.
+      - ./initdb.d-metadata:/docker-entrypoint-initdb.d:ro
   mongo:
     image: mongo:6              # Use a modern version of MongoDB.
-    ports:
-      - ${MGPORT}:27017         # Expose it on a port taken from an environment variable.
     environment:                # Set its superuser username and password.
       MONGO_INITDB_ROOT_PASSWORD: mongo
       MONGO_INITDB_ROOT_USERNAME: mongo
     volumes:                    # Initialize from the contents of the initialization directory.
       - ./initdb.d-mongo:/docker-entrypoint-initdb.d:ro
-    depends_on:                 # Wait until postgres starts up first.
-      postgres:
-        condition: service_healthy
-  migrate:
-    profiles: [disabled]
-    build: .
-    depends_on:
-      postgres:
-        condition: service_healthy
   mongo_data_connector:         # Start the connector agent.
     image: hasura/mongo-data-connector:v2.38.0
     depends_on:                 # Wait until mongo starts up first.
       - mongo
-  hasura:                       # Start Hasura.
+  redis:
+    image: redis:latest
+  hasura1:                       # Start Hasura.
     image: hasura/graphql-engine:v2.40.0
-    depends_on:                 # Wait until the connector agent starts up first.
-      - mongo_data_connector
     ports:                      # Expose it on a port taken from an environment variable
-      - ${HGPORT}:8080
+      - ${HGPORT1}:8080
+    healthcheck:                # Use a sensible healthcheck.
+      test: curl -s http://localhost:8080/healthz
+      start_period: 60s
+    environment:                # Configure Hasura.
+      HASURA_GRAPHQL_ADMIN_SECRET: hasura # Hasura EE requires an admin secret.
+      HASURA_GRAPHQL_DEV_MODE: true       # We require dev mode.
+      HASURA_GRAPHQL_ENABLE_CONSOLE: true # We require Hasura Console.
+      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgres@metadata/metadata_1 # Hasura requires a PostgreSQL DB for metadata.
+  hasura2:                       # Start Hasura.
+    image: hasura/graphql-engine:v2.40.0
+    depends_on:                 # Wait until postgres starts up first.
+      postgres:
+        condition: service_healthy
+    ports:                      # Expose it on a port taken from an environment variable
+      - ${HGPORT2}:8080
     healthcheck:                # Use a sensible healthcheck.
       test: curl -s http://localhost:8080/healthz
       start_period: 60s
@@ -52,11 +54,23 @@ services:
       HASURA_GRAPHQL_DEV_MODE: true       # We require dev mode.
       HASURA_GRAPHQL_EE_LICENSE_KEY: ${HASURA_GRAPHQL_EE_LICENSE_KEY} # Hasura EE requires a license key.
       HASURA_GRAPHQL_ENABLE_CONSOLE: true # We require Hasura Console.
-      HASURA_GRAPHQL_MAX_CACHE_SIZE: 200  # Set Redis cache size.
-      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgres@postgres/metadata_1 # Hasura requires a PostgreSQL DB for metadata.
+      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgres@metadata/metadata_2 # Hasura requires a PostgreSQL DB for metadata.
       HASURA_GRAPHQL_METADATA_DEFAULTS: '{"backend_configs":{"dataconnector":{"Mongo":{"uri":"http://mongo_data_connector:3000"}}}}' # Tell Hasura about the connector agent.
+  hasura3:                       # Start Hasura.
+    image: hasura/graphql-engine:v2.40.0
+    ports:                      # Expose it on a port taken from an environment variable
+      - ${HGPORT3}:8080
+    depends_on:
+      hasura1:
+        condition: service_healthy
+      hasura2:
+        condition: service_healthy
+    environment:                # Configure Hasura.
+      HASURA_GRAPHQL_ADMIN_SECRET: hasura # Hasura EE requires an admin secret.
+      HASURA_GRAPHQL_DEV_MODE: true       # We require dev mode.
+      HASURA_GRAPHQL_EE_LICENSE_KEY: ${HASURA_GRAPHQL_EE_LICENSE_KEY} # Hasura EE requires a license key.
+      HASURA_GRAPHQL_ENABLE_CONSOLE: true # We require Hasura Console.
+      HASURA_GRAPHQL_MAX_CACHE_SIZE: 200  # Set Redis cache size.
+      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgres@metadata/metadata_3 # Hasura requires a PostgreSQL DB for metadata.
       HASURA_GRAPHQL_RATE_LIMIT_REDIS_URL: redis://redis:6379 # Set the Redis URL for rate-limiting.
       HASURA_GRAPHQL_REDIS_URL: redis://redis:6379            # Use the same Redis URL for caching.
-      POSTGRES_URL: postgres://postgres:postgres@postgres/chinook # Set a database URL environment variable.
-    volumes:
-      - ./metadata:/hasura-metadata:ro
