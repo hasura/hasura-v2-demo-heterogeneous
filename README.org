@@ -29,6 +29,13 @@ once all the services have been launched.
 
 * Part A:  At the Command Line
 
+** Step 0:  (Optional) Skip directly to Part B > [[*Step 0: (Optional) Start the services.][Step 0]].
+
+If you wish to avoid the lengthy and tedious sequence of steps in Part
+A, which build up the Docker Compose file and acquire initialization
+files, then skip directly to Part B and just use the Docker Compose
+file and initialization files that are already in this repository.
+
 ** Step 1:  Create a new directory.
 
 Create a directory to work in and move to it.
@@ -423,6 +430,9 @@ will access data from the ~mongo~ service.
 #+begin_src yaml
   hasura2:                       # Start Hasura.
     image: hasura/graphql-engine:v2.40.0
+    depends_on:                 # Wait until postgres starts up first.
+      postgres:
+        condition: service_started
     ports:                      # Expose it on a port taken from an environment variable
       - ${HGPORT2}:8080
     healthcheck:                # Use a sensible healthcheck.
@@ -444,8 +454,8 @@ cat <<'EOF' >> docker-compose.yaml
   hasura2:                       # Start Hasura.
     image: hasura/graphql-engine:v2.40.0
     depends_on:                 # Wait until postgres starts up first.
-      postgres:
-        condition: service_healthy
+      metadata:
+        condition: service_started
     ports:                      # Expose it on a port taken from an environment variable
       - ${HGPORT2}:8080
     healthcheck:                # Use a sensible healthcheck.
@@ -573,6 +583,24 @@ Use Docker Compose to start the ~mongo_data_connector~, ~redis~,
 
 * Part B:  In Hasura Console
 
+** Step 0:  (Optional) Start the services.
+
+Use Docker Compose to ensure that all of the services are started.  If
+they have already been started, then this step is a no-op.  Do make
+sure that the necessary environment variables have been established
+first, however.
+
+#+begin_src bash :eval never-export :exports code :session scratch :results none
+  export HASURA_GRAPHQL_EE_LICENSE_KEY=<your EE license key>
+  export HGPORT1=8081		# or your own port
+  export HGPORT2=8082		# or your own port
+  export HGPORT3=8083		# or your own port
+#+end_src
+
+#+begin_src bash :eval never-export :exports code :session scratch :results none
+  docker compose up -d
+#+end_src
+
 ** Step 1:  Open the Hasura Console and log in.
 
 Open a browser to the Hasura Console instances for all three Hasura
@@ -632,7 +660,7 @@ sufficient just to choose the "Track All" option.
   a data source.  It also "tracked" these tables, which means to add
   them to the GraphQL API.
 
-** Step 3:  Add the mongo database and track the mongo collections
+** Step 3:  Add the mongo database and track its collections and relationships.
 
 Use Hasura Console at [[http://localhost:8082]] (or your own port) as
 illustrated here to add the ~mongo~ database.
@@ -688,10 +716,12 @@ docker exec scratch-mongo-1 mongosh --quiet -u mongo -p mongo --eval "EJSON.stri
 [[https://github.com/user-attachments/assets/9b2c7c46-d7e3-41ef-aa81-c39f77feaabc][Step 2]]
 
 - What did this do? ::
-  This step used Hasura Console to edit the Hasura metadata in order to
-  add the ~mongo~ database (also a Docker Compose service) as a data
-  source. As discussed above, it also sampled the mongo collections in
-  order to track its collections with suitable Logical Models.
+  This step used Hasura Console to edit the Hasura metadata in order
+  to add the ~mongo~ database (also a Docker Compose service) as a
+  data source. As discussed above, it also sampled the mongo
+  collections in order to track its collections with suitable Logical
+  Models.  Finally, it set up relationships between the Logical Models
+  for this data source.
 
 ** Step 4:  Add the Remote Schemas.
 

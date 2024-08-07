@@ -29,6 +29,12 @@ services:
     image: redis:latest
   hasura1:                       # Start Hasura.
     image: hasura/graphql-engine:v2.40.0
+    restart: always
+    depends_on:                 # Wait until postgres starts up first.
+      postgres:
+        condition: service_healthy
+      metadata:
+        condition: service_started
     ports:                      # Expose it on a port taken from an environment variable
       - ${HGPORT1}:8080
     healthcheck:                # Use a sensible healthcheck.
@@ -41,9 +47,10 @@ services:
       HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgres@metadata/metadata_1 # Hasura requires a PostgreSQL DB for metadata.
   hasura2:                       # Start Hasura.
     image: hasura/graphql-engine:v2.40.0
+    restart: always
     depends_on:                 # Wait until postgres starts up first.
-      postgres:
-        condition: service_healthy
+      metadata:
+        condition: service_started
     ports:                      # Expose it on a port taken from an environment variable
       - ${HGPORT2}:8080
     healthcheck:                # Use a sensible healthcheck.
@@ -58,6 +65,7 @@ services:
       HASURA_GRAPHQL_METADATA_DEFAULTS: '{"backend_configs":{"dataconnector":{"Mongo":{"uri":"http://mongo_data_connector:3000"}}}}' # Tell Hasura about the connector agent.
   hasura3:                       # Start Hasura.
     image: hasura/graphql-engine:v2.40.0
+    restart: always
     ports:                      # Expose it on a port taken from an environment variable
       - ${HGPORT3}:8080
     depends_on:
