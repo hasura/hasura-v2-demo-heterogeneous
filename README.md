@@ -616,7 +616,7 @@ The reason not to track these tables in the `postgres` database is that these da
 
 After tracking the tables listed above, Hasura Console will suggest relationships to track, which it infers from foreign-key constraints discovered while introspecting the database. These are only suggestions, and you are free to create whatever relations you like. Of course, those relationships should make sense and be semantically-valid within your data model. In this demo, it is sufficient just to choose the "Track All" option.
 
-[Step 1](https://github.com/user-attachments/assets/77424ec0-e1ed-4241-92e8-7ed3ea5ba261)
+[2024-08-07_11-11-55.webm](https://github.com/user-attachments/assets/e7bdab84-313e-4210-a4a6-c8ab2727f92c)
 
 -   **What did this do?:** This step used Hasura Console to edit the Hasura metadata in order to add the `postgres` database (itself a Docker Compose service) as a data source. It also "tracked" these tables, which means to add them to the GraphQL API.
 
