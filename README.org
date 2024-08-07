@@ -743,11 +743,18 @@ Step 3
   (PostgreSQL) and ~hasura2~ (MongoDB) as Remote Schemas.  This
   establishes this third Hasura instance as a super-graph gateway.
 
-** Step 5:  Add Remote Relationships.
+** Step 5:  Add the Remote Schemas and Remote Relationships.
 
-Use Hasura Console at http://localhost:8003 (or your own port) as
-illustrated here to add Remote Relationships between ~hasura1~
-(PostgreSQL) and ~hasura2~ (MongoDB) collections.
+Use Hasura Console at [[http://localhost:8083]] (or your own port) as
+illustrated here to add Remote Schemas to the other two Hasura
+instances.  Then add Remote Relationships to compose the schemas into
+a super-graph.
+
+The /internal/ Docker endpoint for ~hasura1~ (PostgreSQL) is:
+~http://hasura1:8080/v1/graphql~.
+
+The /internal/ Docker endpoint for ~hasura2~ (MongoDB) is:
+~http://hasura2:8080/v1/graphql~.
 
 [[https://github.com/user-attachments/assets/c514385b-5641-41d7-aa1f-080688657943][Step 3]]
 
