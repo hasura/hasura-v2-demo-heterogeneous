@@ -652,7 +652,7 @@ Of course, those relationships should make sense and be
 semantically-valid within your data model.  In this demo, it is
 sufficient just to choose the "Track All" option.
 
-[[https://github.com/user-attachments/assets/77424ec0-e1ed-4241-92e8-7ed3ea5ba261][Step 1]]
+[[https://github.com/user-attachments/assets/e7bdab84-313e-4210-a4a6-c8ab2727f92c][Step 1]]
 
 - What did this do? ::
   This step used Hasura Console to edit the Hasura metadata in order
@@ -713,7 +713,7 @@ docker exec scratch-mongo-1 mongosh --quiet -u mongo -p mongo --eval "EJSON.stri
 : {"_id":{"$oid":"6637f6cc7cda30b626bb1d07"},"AlbumId":1,"Title":"For Those About To Rock We Salute You","ArtistId":1}
 : {"_id":{"$oid":"6637f6ce7cda30b626bb1f75"},"TrackId":1,"Name":"For Those About To Rock (We Salute You)","AlbumId":1,"MediaTypeId":1,"GenreId":1,"Composer":"Angus Young, Malcolm Young, Brian Johnson","Milliseconds":343719,"Bytes":11170334,"UnitPrice":0.99}
 
-[[https://github.com/user-attachments/assets/9b2c7c46-d7e3-41ef-aa81-c39f77feaabc][Step 2]]
+[[https://github.com/user-attachments/assets/f905c2f9-5256-4f79-bc88-d25b0fc8acbb][Step 2]]
 
 - What did this do? ::
   This step used Hasura Console to edit the Hasura metadata in order
@@ -723,27 +723,7 @@ docker exec scratch-mongo-1 mongosh --quiet -u mongo -p mongo --eval "EJSON.stri
   Models.  Finally, it set up relationships between the Logical Models
   for this data source.
 
-** Step 4:  Add the Remote Schemas.
-
-Use Hasura Console at [[http://localhost:8083]] (or your own port) as
-illustrated here to add Remote Schemas to the other two Hasura
-instances.
-
-The /internal/ Docker endpoint for ~hasura1~ (PostgreSQL) is:
-~http://hasura1:8080/v1/graphql~.
-
-The /internal/ Docker endpoint for ~hasura2~ (MongoDB) is:
-~http://hasura2:8080/v1/graphql~.
-
-Step 3
-
-- What did this do? ::
-  This step used Hasura Console to edit the Hasura metadata in order
-  to add the two other Hasura sub-graph instances ~hasura1~
-  (PostgreSQL) and ~hasura2~ (MongoDB) as Remote Schemas.  This
-  establishes this third Hasura instance as a super-graph gateway.
-
-** Step 5:  Add the Remote Schemas and Remote Relationships.
+** Step 4:  Add the Remote Schemas and Remote Relationships.
 
 Use Hasura Console at [[http://localhost:8083]] (or your own port) as
 illustrated here to add Remote Schemas to the other two Hasura
@@ -756,7 +736,7 @@ The /internal/ Docker endpoint for ~hasura1~ (PostgreSQL) is:
 The /internal/ Docker endpoint for ~hasura2~ (MongoDB) is:
 ~http://hasura2:8080/v1/graphql~.
 
-[[https://github.com/user-attachments/assets/c514385b-5641-41d7-aa1f-080688657943][Step 3]]
+[[https://github.com/user-attachments/assets/4d2e17b3-32d1-46bb-9866-e014f2d027f0][Step 3]]
 
 - What did this do? ::
   This step used Hasura Console to edit the Hasura metadata in order
@@ -765,7 +745,7 @@ The /internal/ Docker endpoint for ~hasura2~ (MongoDB) is:
   Hasura instances.  This is the crucial step that links data between
   different data sources.
 
-** Step 6:  Try a sample query.
+** Step 5:  Try a sample query.
 
 Use Hasura Console as illustrated here to try a sample GraphQL query
 that traverses both data source, ~postgres~ and ~mongo~, via the
